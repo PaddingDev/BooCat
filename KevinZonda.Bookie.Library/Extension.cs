@@ -63,15 +63,15 @@ public static class Extension
         return null;
     }
 
-    public static (bool IsOk, T? Value) Try<T>(Func<T> f)
+    public static (bool IsOk, T? Value, Exception? Ex) Try<T>(Func<T> f)
     {
         try
         {
-            return (true, f());
+            return (true, f(), null);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return (false, default(T));
+            return (false, default(T), ex);
         }
     }
 }

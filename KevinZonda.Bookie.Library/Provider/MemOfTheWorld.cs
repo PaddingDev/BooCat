@@ -4,7 +4,7 @@ using KevinZonda.Bookie.Library.Models.MemOfTheWorld;
 using System.Text.Json;
 
 namespace KevinZonda.Bookie.Library.Provider;
-public class MemOfTheWorld : Provider
+public sealed class MemOfTheWorld : Provider
 {
     protected override string _searchPrefix => "https://books.memoryoftheworld.org/search/titles/";
 
