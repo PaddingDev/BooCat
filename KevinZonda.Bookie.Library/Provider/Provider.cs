@@ -1,13 +1,18 @@
 ﻿using KevinZonda.Bookie.Library.Models;
 
+using System.Web;
+
 #pragma warning disable 8618
 
 namespace KevinZonda.Bookie.Library.Provider;
 
 public abstract class Provider
 {
-    protected HttpClient _httpClient;
+    protected abstract string _searchPrefix { get; }
+    protected abstract string _baseUrl { get; }
     
+    protected HttpClient _httpClient;
+
     public Provider()
     {
         Init();
@@ -32,6 +37,14 @@ public abstract class Provider
 
     protected abstract BookInfo[] ParseRespose(string response);
 
-    protected abstract string ConstructSearchUrl(string searchText);
+    protected virtual string ConstructSearchUrl(string searchText)
+    {
+        return _searchPrefix + HttpUtility.UrlEncode(searchText);
+    }
+
+    protected virtual string Uri2Url(string uri)
+    {
+        return _baseUrl + uri;
+    }
 
 }

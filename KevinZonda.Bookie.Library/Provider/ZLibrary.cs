@@ -2,19 +2,11 @@
 
 using KevinZonda.Bookie.Library.Models;
 
-using System.Web;
-
 namespace KevinZonda.Bookie.Library.Provider;
 public sealed class Zibrary : Provider
 {
-    private const string _searchPrefix = "https://b-ok.cc/s/?q=";
-    private const string _baseUrl = "https://b-ok.cc";
-
-
-    protected override string ConstructSearchUrl(string searchText)
-    {
-        return _searchPrefix + HttpUtility.UrlEncode(searchText);
-    }
+    protected override string _searchPrefix => "https://b-ok.cc/s/?q=";
+    protected override string _baseUrl => "https://b-ok.cc";
 
     protected override BookInfo[] ParseRespose(string response)
     {
@@ -80,11 +72,6 @@ public sealed class Zibrary : Provider
             }
         }
         return book;
-    }
-
-    private string Uri2Url(string uri)
-    {
-        return _baseUrl + uri;
     }
 
     (string BookName, string[] Publishers, string[] Authors, string Uri) ParseBasic(HtmlNode node)
