@@ -2,21 +2,21 @@
 
 using KevinZonda.Bookie.Library.Models;
 
+using System.Web;
+
 namespace KevinZonda.Bookie.Library.Provider;
 public sealed class Zibrary : Provider
 {
-    public override async Task<BookInfo[]> GetBook(string searchText)
+    private const string _searchPrefix = "https://b-ok.cc/s/?q=";
+    private const string _baseUrl = "https://b-ok.cc";
+
+
+    protected override string ConstructSearchUrl(string searchText)
     {
-        var html = await Get(ConstructSearchUrl(searchText));
-        return ParseRespose(html);
+        return _searchPrefix + HttpUtility.UrlEncode(searchText);
     }
 
-    private string ConstructSearchUrl(string url)
-    {
-        throw new NotImplementedException();
-    }
-
-    public BookInfo[] ParseRespose(string response)
+    protected override BookInfo[] ParseRespose(string response)
     {
         var list = new List<BookInfo>();
 
@@ -84,7 +84,7 @@ public sealed class Zibrary : Provider
 
     private string Uri2Url(string uri)
     {
-        return uri;
+        return _baseUrl + uri;
     }
 
     (string BookName, string[] Publishers, string[] Authors, string Uri) ParseBasic(HtmlNode node)

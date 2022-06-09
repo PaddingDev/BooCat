@@ -10,6 +10,14 @@ public abstract class Provider
         return await response.Content.ReadAsStringAsync();
     }
 
-    public abstract Task<BookInfo[]> GetBook(string searchText);
+    public async Task<BookInfo[]> GetBook(string searchText)
+    {
+        var html = await Get(ConstructSearchUrl(searchText));
+        return ParseRespose(html);
+    }
+
+    protected abstract BookInfo[] ParseRespose(string response);
+
+    protected abstract string ConstructSearchUrl(string searchText);
 
 }
