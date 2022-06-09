@@ -7,7 +7,7 @@ A universal book search platform which allows you to search several providers by
 - [x] Z-Library
 - [ ] Library Genesis
 - [ ] Open Library
-- [ ] Memory of the World
+- [x] Memory of the World
 
 ## Tech Stacks
 
