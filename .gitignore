@@ -1,0 +1,6 @@
+.vs
+.vscode
+.rider
+
+**/obj
+**/bin

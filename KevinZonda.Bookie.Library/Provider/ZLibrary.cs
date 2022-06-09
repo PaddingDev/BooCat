@@ -1,0 +1,157 @@
+﻿using HtmlAgilityPack;
+
+using KevinZonda.Bookie.Library.Models;
+
+namespace KevinZonda.Bookie.Library.Provider;
+public sealed class Zibrary : Provider
+{
+    public override async Task<BookInfo[]> GetBook(string searchText)
+    {
+        var html = await Get(ConstructSearchUrl(searchText));
+        return ParseRespose(html);
+    }
+
+    private string ConstructSearchUrl(string url)
+    {
+        throw new NotImplementedException();
+    }
+
+    public BookInfo[] ParseRespose(string response)
+    {
+        var list = new List<BookInfo>();
+
+        var doc = new HtmlDocument();
+        doc.LoadHtml(response);
+        var rootNode = doc.GetElementbyId("searchResultBox");
+
+        if (rootNode.HasChildNodes)
+        {
+            var nodes = rootNode.ChildNodes;
+            foreach (var node in nodes)
+            {
+                var rst = Parse(node);
+                if (rst != null)
+                    list.Add(rst);
+            }
+        }
+
+        return list.ToArray();
+    }
+    BookInfo? Parse(HtmlNode node)
+    {
+        var attr = node.Attributes;
+        var bookId = attr.ContainsAttribute("data-book_id");
+        if (!bookId.IsContains)
+            return null;
+        var hNode = node.SelectNodes("div/table/tr/td");
+
+        var last = hNode.Last().SelectNodes("table/tr");
+
+        var book = new BookInfo()
+        {
+            ID = bookId.Value!,
+        };
+
+        var count = last.Count;
+
+        if (count > 0)
+        {
+            var result = Extension.Try(() => ParseBasic(last[0]));
+            if (result.IsOk)
+            {
+                var basicInfo = result.Value;
+                book.Name = basicInfo.BookName;
+                book.Authors = basicInfo.Authors;
+                book.Publishers = basicInfo.Publishers;
+                book.Url = Uri2Url(basicInfo.Uri);
+            }
+        }
+
+        if (count > 1)
+        {
+            var result = Extension.Try(() => ParseDetail(last[1]));
+            if (result.IsOk)
+            {
+                var detailedInfo = result.Value;
+                book.FileType = detailedInfo.FileType;
+                book.FileSize = detailedInfo.FileSize;
+                book.Date = detailedInfo.Date;
+                book.Language = detailedInfo.Language;
+            }
+        }
+        return book;
+    }
+
+    private string Uri2Url(string uri)
+    {
+        return uri;
+    }
+
+    (string BookName, string[] Publishers, string[] Authors, string Uri) ParseBasic(HtmlNode node)
+    {
+        var bookNameHtml = node.SelectSingleNode("td/h3/a");
+        var bookName = bookNameHtml.InnerText;
+
+        var linkAttr = bookNameHtml.Attributes.ContainsAttribute("href");
+        var link = linkAttr.IsContains ? linkAttr.Value : "FAILED";
+        var divs = node.SelectNodes("td/div");
+        var publisher = new List<string>();
+        var author = new List<string>();
+        foreach (var div in divs)
+        {
+            var classAttr = div.Attributes.ContainsAttribute("class");
+            if (classAttr.IsContains && classAttr.Value!.ToLower() == "authors")
+            {
+                var authors = div.SelectNodes("a");
+                author.AddInnerHtml(authors);
+            }
+            else
+            {
+                var publishers = div.SelectNodes("a");
+                publisher.AddInnerHtml(publishers);
+            }
+
+        }
+        return (bookName, publisher.ToArray(), author.ToArray(), link)!;
+    }
+
+    (string Date, string Language, string FileType, string FileSize) ParseDetail(HtmlNode node)
+    {
+        string? date = null;
+        string? lang = null;
+        string? ftype = null;
+        string? fsize = null;
+        var detailedBox = node.SelectSingleNode("td/div[@class='bookDetailsBox']");
+        foreach (var child in detailedBox.ChildNodes)
+        {
+            var classAttr = child.Attributes.ContainsAttribute("class");
+            if (!classAttr.IsContains)
+                continue;
+            var classValue = classAttr.Value!;
+            if (!classValue.StartsWith("bookProperty "))
+                continue;
+            var propertyType = classValue.Substring("bookProperty ".Length);
+            var valueNode = child.ChildNodes.Find("class", "property_value");
+            string? value = valueNode == null ? null : valueNode.InnerText;
+
+            switch (propertyType)
+            {
+                case "property_year":
+                    date = value;
+                    break;
+                case "property_language":
+                    lang = value;
+                    break;
+                case "property__file":
+                    if (value == null) continue;
+                    var x = value.Split(',');
+                    ftype = x[0].Trim();
+                    fsize = x[1].Trim();
+                    break;
+            }
+        }
+        return (date, lang, ftype, fsize)!;
+
+    }
+
+}
