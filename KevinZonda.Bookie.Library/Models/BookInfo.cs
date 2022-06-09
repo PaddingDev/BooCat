@@ -1,7 +1,8 @@
 ﻿using System.Text.Json;
 
-namespace KevinZonda.Bookie.Library.Models;
 #pragma warning disable 8618
+
+namespace KevinZonda.Bookie.Library.Models;
 
 public sealed class BookInfo
 {

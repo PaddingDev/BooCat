@@ -5,7 +5,7 @@ using KevinZonda.Bookie.Library.Provider;
 
 
 var z = new Zibrary();
-var m = z.GetBook(Console.ReadLine()).Result;
+var m = z.SearchBook(Console.ReadLine()).Result;
 foreach (var item in m)
 {
     Console.WriteLine(item);
