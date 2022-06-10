@@ -20,9 +20,16 @@ public class LibGen : Provider
         var list = new List<BookInfo>();
         var html = new HtmlDocument();
         html.LoadHtml(response);
+
         var node = html.GetElementbyId("tablelibgen");
+        if (node == null) return list.ToArray();
+
         node = node.SelectSingleNode("tbody");
+        if (node == null) return list.ToArray();
+
         var bookNodes = node.SelectNodes("tr");
+        if (bookNodes == null) return list.ToArray();
+
         foreach (var bookNode in bookNodes)
         {
             list.AddIfNotNull(ParseBookNode(bookNode));
@@ -37,7 +44,7 @@ public class LibGen : Provider
         var ns = node.SelectNodes("td");
         if (ns.Count < 8) return null;
         // 0 -> Basic
-        var basicNode = ns[0];
+        var basicInfo = ParseBasicInfo(ns[0]);
         // 1 -> Authors
         var author = ns[1].InnerText.IfNullThen("").TrimSplit(';');
 
@@ -58,6 +65,9 @@ public class LibGen : Provider
         // Ignore
         return new BookInfo
         {
+            ID = basicInfo?.Uri.Split('=').SafeIndex(1),
+            Name = basicInfo?.Name,
+            Url = Uri2Url(basicInfo?.Uri),
             Publishers = publish.ToSingleArray(),
             Authors = author,
             Date = year,
@@ -65,5 +75,19 @@ public class LibGen : Provider
             FileSize = size,
             FileType = type
         };
+    }
+
+    private (string Name, string? Uri)? ParseBasicInfo(HtmlNode n)
+    {
+        if (n == null) return null;
+        var x = n.SelectSingleNode("b/a")
+                         .IfNull(() => n.SelectSingleNode("a"));
+        if (x == null) return null;
+
+        var linkAttr = x.ContainsAttribute("href");
+        return (x.InnerText.SafeTrim(),
+            linkAttr.IsContains
+            ? linkAttr.Value;
+
     }
 }

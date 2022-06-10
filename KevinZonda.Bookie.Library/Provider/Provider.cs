@@ -10,7 +10,7 @@ public abstract class Provider
 {
     protected abstract string _searchPrefix { get; }
     protected abstract string _baseUrl { get; }
-    
+
     protected HttpClient _httpClient;
 
     public Provider()
@@ -42,9 +42,11 @@ public abstract class Provider
         return _searchPrefix + HttpUtility.UrlEncode(searchText);
     }
 
-    protected virtual string Uri2Url(string uri)
+    protected virtual string? Uri2Url(string uri)
     {
-        return _baseUrl + uri;
+        if (uri == null) return null;
+        if (uri.StartsWith("/")) return _baseUrl + uri;
+        else return _baseUrl + "/" + uri;
     }
 
 }

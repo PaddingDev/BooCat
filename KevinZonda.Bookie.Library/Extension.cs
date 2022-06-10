@@ -119,6 +119,12 @@ public static class Extension
         return arr[index];
     }
 
+    public static string SafeTrim(this string s)
+    {
+        if (string.IsNullOrEmpty(s)) return s;
+        return s.Trim();
+    }
+
     public static T IfNull<T>(this T t, Func<T> ifNull)
     {
         if (t == null)
