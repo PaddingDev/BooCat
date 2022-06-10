@@ -99,4 +99,11 @@ public static class Extension
         if (string.IsNullOrEmpty(n)) return new string[] { };
         return n.Split(c);
     }
+
+    public static T SafeIndex <T> (this T[] arr, int index, T ifOutOfBound = default(T))
+    {
+        if (arr == null) return ifOutOfBound;
+        if (index < 0 || index >= arr.Length) return ifOutOfBound;
+        return arr[index];
+    }
 }

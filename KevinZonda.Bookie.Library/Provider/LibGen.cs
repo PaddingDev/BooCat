@@ -46,7 +46,7 @@ public class LibGen : Provider
         // 3 -> Year
         var year = ns[3].InnerText;
         // 4 -> Lang
-        var lang = ns[4].InnerText;
+        var lang = ns[4].InnerText.TrimSplit(';').SafeIndex(0, null);
         // 5 -> Pages
         // Ignore
 
