@@ -10,9 +10,21 @@ namespace KevinZonda.Bookie.Library;
 public static class Extension
 {
     public static (bool IsContains, string? Value) ContainsAttribute(
-        this HtmlAttributeCollection collection,
+        this HtmlNode node,
         string attr)
     {
+        if (node == null)
+            return (false, null);
+        var attrNode = node.Attributes;
+        return attrNode.ContainsAttribute(attr);
+    }
+
+    public static (bool IsContains, string? Value) ContainsAttribute(
+    this HtmlAttributeCollection collection,
+    string attr)
+    {
+        if (collection == null)
+            return (false, null);
         foreach (var m in collection)
         {
             if (m.Name == attr)
@@ -45,7 +57,7 @@ public static class Extension
         bool isNull = string.IsNullOrEmpty(contains);
         foreach (var n in c)
         {
-            var p = n.Attributes.ContainsAttribute(propertyName);
+            var p = n.ContainsAttribute(propertyName);
 
             // Contains tis property?
             if (!p.IsContains)
@@ -100,10 +112,17 @@ public static class Extension
         return n.Split(c);
     }
 
-    public static T SafeIndex <T> (this T[] arr, int index, T ifOutOfBound = default(T))
+    public static T SafeIndex<T>(this T[] arr, int index, T ifOutOfBound = default(T))
     {
         if (arr == null) return ifOutOfBound;
         if (index < 0 || index >= arr.Length) return ifOutOfBound;
         return arr[index];
+    }
+
+    public static T IfNull<T>(this T t, Func<T> ifNull)
+    {
+        if (t == null)
+            return ifNull();
+        return t;
     }
 }

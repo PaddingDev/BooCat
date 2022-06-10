@@ -31,8 +31,7 @@ public sealed class ZLibrary : Provider
     }
     BookInfo? Parse(HtmlNode node)
     {
-        var attr = node.Attributes;
-        var bookId = attr.ContainsAttribute("data-book_id");
+        var bookId = node.ContainsAttribute("data-book_id");
         if (!bookId.IsContains)
             return null;
         var hNode = node.SelectNodes("div/table/tr/td");
@@ -79,14 +78,14 @@ public sealed class ZLibrary : Provider
         var bookNameHtml = node.SelectSingleNode("td/h3/a");
         var bookName = bookNameHtml.InnerText;
 
-        var linkAttr = bookNameHtml.Attributes.ContainsAttribute("href");
+        var linkAttr = bookNameHtml.ContainsAttribute("href");
         var link = linkAttr.IsContains ? linkAttr.Value : "FAILED";
         var divs = node.SelectNodes("td/div");
         var publisher = new List<string>();
         var author = new List<string>();
         foreach (var div in divs)
         {
-            var classAttr = div.Attributes.ContainsAttribute("class");
+            var classAttr = div.ContainsAttribute("class");
             if (classAttr.IsContains && classAttr.Value!.ToLower() == "authors")
             {
                 var authors = div.SelectNodes("a");
@@ -111,7 +110,7 @@ public sealed class ZLibrary : Provider
         var detailedBox = node.SelectSingleNode("td/div[@class='bookDetailsBox']");
         foreach (var child in detailedBox.ChildNodes)
         {
-            var classAttr = child.Attributes.ContainsAttribute("class");
+            var classAttr = child.ContainsAttribute("class");
             if (!classAttr.IsContains)
                 continue;
             var classValue = classAttr.Value!;
