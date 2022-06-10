@@ -18,10 +18,7 @@ public class LibGen : Provider
         var node = html.GetElementbyId("tablelibgen");
         if (node == null) return list.ToArray();
 
-        node = node.SelectSingleNode("tbody");
-        if (node == null) return list.ToArray();
-
-        var bookNodes = node.SelectNodes("tr");
+        var bookNodes = node.SelectNodes("tbody/tr");
         if (bookNodes == null) return list.ToArray();
 
         foreach (var bookNode in bookNodes)

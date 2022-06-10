@@ -16,6 +16,7 @@ public sealed class ZLibrary : Provider
         var doc = new HtmlDocument();
         doc.LoadHtml(response);
         var rootNode = doc.GetElementbyId("searchResultBox");
+        if (rootNode == null) return list.ToArray();
 
         if (rootNode.HasChildNodes)
         {
@@ -23,8 +24,7 @@ public sealed class ZLibrary : Provider
             foreach (var node in nodes)
             {
                 var rst = Parse(node);
-                if (rst != null)
-                    list.Add(rst);
+                list.AddIfNotNull(rst);
             }
         }
 
@@ -36,8 +36,10 @@ public sealed class ZLibrary : Provider
         if (!bookId.IsContains)
             return null;
         var hNode = node.SelectNodes("div/table/tr/td");
+        if (hNode == null) return null;
 
         var last = hNode.Last().SelectNodes("table/tr");
+        if (last == null) return null;
 
         var book = new BookInfo()
         {
