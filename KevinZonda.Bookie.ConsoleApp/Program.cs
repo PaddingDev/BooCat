@@ -1,17 +1,15 @@
-﻿using HtmlAgilityPack;
-
-using KevinZonda.Bookie.Library;
+﻿using KevinZonda.Bookie.Library;
 using KevinZonda.Bookie.Library.Provider;
 
 using System.Text;
 
 PrintHello();
 
-Provider? p = null;
-
 Console.OutputEncoding = Encoding.Unicode;
 Console.InputEncoding = Encoding.Unicode;
 
+var dic = new Dictionary<string, Provider>();
+Provider p;
 while (true)
 {
     Console.Write(">");
@@ -27,6 +25,9 @@ while (true)
                 Console.Clear();
                 PrintHello();
                 continue;
+            case "gc":
+                GC.Collect();
+                continue;
             default:
                 Error("Not valid cmd!");
                 continue;
@@ -35,27 +36,39 @@ while (true)
     switch (cmd[0])
     {
         case "z":
-            p = new ZLibrary();
+            if (dic.ContainsKey("z"))
+                p = dic["z"];
+            else
+                dic["z"] = p = new ZLibrary();
             break;
         case "m":
-            p = new MemOfTheWorld();
+            if (dic.ContainsKey("m"))
+                p = dic["m"];
+            else
+                dic["m"] = p = new MemOfTheWorld();
             break;
         case "g":
-            p = new LibGen();
+            if (dic.ContainsKey("g"))
+                p = dic["g"];
+            else
+                dic["g"] = p = new LibGen();
             break;
         default:
             Console.WriteLine("Error: Not valid provider!");
             continue;
     }
 
-    var m = Extension.Try(() => p.SearchBook(cmd[1]).Result);
+    var n = p.SearchBook(cmd[1]).Result;
+    /*
+    var m = Extension.Try(() => );
     if (!m.IsOk)
     {
         Error("Comand run error!\n" + m.Ex);
         continue;
     }
+    */
 
-    foreach (var item in m.Value!)
+    foreach (var item in n)
     {
         Console.WriteLine(item);
     }
@@ -73,7 +86,7 @@ void PrintHello()
     Console.WriteLine("Powered by .NET");
     Console.WriteLine("===============================");
     Console.WriteLine("Syntax ::= [lib] [BookName]  |");
-    Console.WriteLine("           cls | exit");
+    Console.WriteLine("           cls | exit | gc");
     Console.WriteLine("Where [lib] ::= z for Z-Lib  |");
     Console.WriteLine("                g for LibGen |");
     Console.WriteLine("                m for Memory of the World");

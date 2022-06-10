@@ -2,9 +2,12 @@
 {
     internal class HttpClientFatory
     {
+        private static HttpClient _httpClient = null;
+        
         public static HttpClient Produce()
         {
-            return new HttpClient();
+            if (_httpClient == null) _httpClient = new HttpClient();
+            return _httpClient;
         }
     }
 }
