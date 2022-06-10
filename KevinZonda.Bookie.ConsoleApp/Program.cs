@@ -36,39 +36,33 @@ while (true)
     switch (cmd[0])
     {
         case "z":
-            if (dic.ContainsKey("z"))
-                p = dic["z"];
-            else
-                dic["z"] = p = new ZLibrary();
+            if (!dic.ContainsKey("z"))
+                dic["z"] = new ZLibrary();
+            p = new ZLibrary();
             break;
         case "m":
-            if (dic.ContainsKey("m"))
-                p = dic["m"];
-            else
-                dic["m"] = p = new MemOfTheWorld();
+            if (!dic.ContainsKey("m"))
+                dic["m"] = new MemOfTheWorld();
+            p = dic["m"];
             break;
         case "g":
-            if (dic.ContainsKey("g"))
-                p = dic["g"];
-            else
-                dic["g"] = p = new LibGen();
+            if (!dic.ContainsKey("g"))
+                dic["g"] = new LibGen();
+            p = dic["g"];
             break;
         default:
             Console.WriteLine("Error: Not valid provider!");
             continue;
     }
 
-    var n = p.SearchBook(cmd[1]).Result;
-    /*
-    var m = Extension.Try(() => );
+    var m = Extension.Try(() => p.SearchBook(cmd[1]).Result);
     if (!m.IsOk)
     {
         Error("Comand run error!\n" + m.Ex);
         continue;
     }
-    */
 
-    foreach (var item in n)
+    foreach (var item in m.Value!)
     {
         Console.WriteLine(item);
     }

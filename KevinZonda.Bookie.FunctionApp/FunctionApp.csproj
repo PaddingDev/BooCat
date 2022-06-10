@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KevinZonda.Bookie.Library\KevinZonda.Bookie.Library.csproj" />
+    <ProjectReference Include="..\KevinZonda.Bookie.Library\Library.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
