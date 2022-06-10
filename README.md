@@ -2,10 +2,10 @@
 
 A universal book search platform which allows you to search several providers by just one-click.
 
-## Supported Provider
+## Supported Providers
 
 - [x] Z-Library
-- [ ] Library Genesis
+- [x] Library Genesis
 - [ ] Open Library
 - [x] Memory of the World
 
