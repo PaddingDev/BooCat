@@ -3,9 +3,14 @@
 using KevinZonda.Bookie.Library;
 using KevinZonda.Bookie.Library.Provider;
 
+using System.Text;
+
 PrintHello();
 
 Provider? p = null;
+
+Console.OutputEncoding = Encoding.Unicode;
+Console.InputEncoding = Encoding.Unicode;
 
 while (true)
 {
