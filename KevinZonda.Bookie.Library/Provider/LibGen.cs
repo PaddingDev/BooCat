@@ -40,18 +40,18 @@ public class LibGen : Provider
         var author = ns[1].InnerText.IfNullThen("").TrimSplit(';');
 
         // 2 -> Publisher
-        var publish = ns[2].InnerText;
+        var publish = ns[2].IfNull(null, x => x.InnerText);
         // 3 -> Year
-        var year = ns[3].InnerText;
+        var year = ns[3].IfNull(null, x => x.InnerText);
         // 4 -> Lang
-        var lang = ns[4].InnerText.TrimSplit(';').SafeIndex(0, null);
+        var lang = ns[4].IfNull(null, x => x.InnerText.TrimSplit(';').SafeIndex(0, null));
         // 5 -> Pages
         // Ignore
 
         // 6 -> FileSize
-        var size = ns[6].InnerText;
+        var size = ns[6].IfNull(null, x => x.InnerText);
         // 7 -> FileType
-        var type = ns[7].InnerText;
+        var type = ns[7].IfNull(null, x => x.InnerText);
         // 8 -> Mirror
         // Ignore
         return new BookInfo

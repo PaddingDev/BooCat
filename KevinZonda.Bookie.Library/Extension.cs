@@ -131,4 +131,9 @@ public static class Extension
             return ifNull();
         return t;
     }
+
+    public static R IfNull<R, T>(this T t, R ifNull, Func<T, R> ifNotNul)
+    {
+        return t == null ? ifNull : ifNotNul(t);
+    }
 }
