@@ -1,6 +1,7 @@
 .vs
 .vscode
 .rider
+.idea
 
 **/obj
 **/bin
