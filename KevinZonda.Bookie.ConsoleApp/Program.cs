@@ -1,5 +1,4 @@
 ﻿using KevinZonda.Bookie.Library;
-using KevinZonda.Bookie.Library.Provider;
 
 using System.Text;
 
@@ -8,8 +7,8 @@ PrintHello();
 Console.OutputEncoding = Encoding.Unicode;
 Console.InputEncoding = Encoding.Unicode;
 
-var dic = new Dictionary<string, Provider>();
-Provider p;
+var dic = new ProviderDic();
+
 while (true)
 {
     Console.Write(">");
@@ -33,34 +32,17 @@ while (true)
                 continue;
         }
     }
-    switch (cmd[0])
+    var provider = Extension.Try(() => 
     {
-        case "z":
-            if (!dic.ContainsKey("z"))
-                dic["z"] = new ZLibrary();
-            p = new ZLibrary();
-            break;
-        case "m":
-            if (!dic.ContainsKey("m"))
-                dic["m"] = new MemOfTheWorld();
-            p = dic["m"];
-            break;
-        case "g":
-            if (!dic.ContainsKey("g"))
-                dic["g"] = new LibGen();
-            p = dic["g"];
-            break;
-        case "o":
-            if (!dic.ContainsKey("o"))
-                dic["o"] = new OpenLibrary();
-            p = dic["o"];
-            break;
-        default:
-            Console.WriteLine("Error: Not valid provider!");
-            continue;
+        return dic[cmd[0]];
+    });
+    if (!provider.IsOk)
+    {
+        Error("No valid provieder!");
+        continue;
     }
 
-    var m = Extension.Try(() => p.SearchBook(cmd[1]).Result);
+    var m = Extension.Try(() => provider.Value.SearchBook(cmd[1]).Result);
     if (!m.IsOk)
     {
         Error("Comand run error!\n" + m.Ex);
@@ -84,10 +66,11 @@ void PrintHello()
     Console.WriteLine("Welcome to Bookie by KevinZonda");
     Console.WriteLine("Powered by .NET");
     Console.WriteLine("===============================");
-    Console.WriteLine("Syntax ::= [lib] [BookName]  |");
+    Console.WriteLine("Syntax ::= [lib] [BookName]   |");
     Console.WriteLine("           cls | exit | gc");
-    Console.WriteLine("Where [lib] ::= z for Z-Lib  |");
-    Console.WriteLine("                g for LibGen |");
+    Console.WriteLine("Where [lib] ::= z for Z-Lib   |");
+    Console.WriteLine("                g for LibGen  |");
+    Console.WriteLine("                o for OpenLib |");
     Console.WriteLine("                m for Memory of the World");
     Console.WriteLine("      [BookName] ::= Σ*");
     Console.WriteLine("===============================");
