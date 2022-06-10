@@ -3,7 +3,7 @@
 using KevinZonda.Bookie.Library.Models;
 
 namespace KevinZonda.Bookie.Library.Provider;
-public class LibGen : Provider
+public sealed class LibGen : Provider
 {
     protected override string _searchPrefix => "https://libgen.li/index.php?req=";
     protected override string _baseUrl => "https://libgen.li";

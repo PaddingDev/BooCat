@@ -2,13 +2,13 @@
 
 namespace KevinZonda.Bookie.Library.Models.MemOfTheWorld;
 
-internal class ResultModel
+internal sealed class ResultModel
 {
     [JsonPropertyName("_items")]
     public List<ResultItemModel> Items { get; set; }
 }
 
-internal class ResultItemModel
+internal sealed class ResultItemModel
 {
     [JsonPropertyName("_id")]
     public string ID { get; set; }
@@ -22,7 +22,7 @@ internal class ResultItemModel
     public List<ResultItemFormatModel> Formats { get; set; }
 }
 
-internal class ResultItemFormatModel
+internal sealed class ResultItemFormatModel
 {
     [JsonPropertyName("format")]
     public string Format { get; set; }
