@@ -1,5 +1,4 @@
-﻿
-namespace KevinZonda.Bookie.Library.Provider.Factory
+﻿namespace KevinZonda.Bookie.Library.Provider.Factory
 {
     internal class HttpClientFatory
     {

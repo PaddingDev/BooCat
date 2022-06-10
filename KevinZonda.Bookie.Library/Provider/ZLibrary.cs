@@ -7,6 +7,7 @@ public sealed class ZLibrary : Provider
 {
     protected override string _searchPrefix => "https://b-ok.cc/s/?q=";
     protected override string _baseUrl => "https://b-ok.cc";
+    public override int MinLength => 2;
 
     protected override BookInfo[] ParseRespose(string response)
     {

@@ -2,18 +2,12 @@
 
 using KevinZonda.Bookie.Library.Models;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
 namespace KevinZonda.Bookie.Library.Provider;
 public class LibGen : Provider
 {
     protected override string _searchPrefix => "https://libgen.li/index.php?req=";
     protected override string _baseUrl => "https://libgen.li";
+    public override int MinLength => 3;
 
     protected override BookInfo[] ParseRespose(string response)
     {

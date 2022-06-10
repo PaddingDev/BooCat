@@ -10,6 +10,7 @@ public abstract class Provider
 {
     protected abstract string _searchPrefix { get; }
     protected abstract string _baseUrl { get; }
+    public virtual int MinLength => 1;
 
     protected HttpClient _httpClient;
 
@@ -29,8 +30,11 @@ public abstract class Provider
         return await response.Content.ReadAsStringAsync();
     }
 
-    public async Task<BookInfo[]> SearchBook(string searchText)
+
+    public virtual async Task<BookInfo[]> SearchBook(string searchText)
     {
+        if (MinLength > 0 && searchText.Length < MinLength)
+            return new BookInfo[0];
         var html = await HttpGet(ConstructSearchUrl(searchText));
         return ParseRespose(html);
     }
