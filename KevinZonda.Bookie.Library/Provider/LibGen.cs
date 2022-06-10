@@ -87,7 +87,7 @@ public class LibGen : Provider
         var linkAttr = x.ContainsAttribute("href");
         return (x.InnerText.SafeTrim(),
             linkAttr.IsContains
-            ? linkAttr.Value;
-
+            ? linkAttr.Value
+            : null);
     }
 }
