@@ -1,5 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 
+#pragma warning disable 8618
+
 namespace KevinZonda.Bookie.Library.Models.MemOfTheWorld;
 
 internal sealed class ResultModel

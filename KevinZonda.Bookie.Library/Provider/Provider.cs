@@ -19,7 +19,7 @@ public abstract class Provider
         Init();
     }
 
-    public virtual void Init()
+    protected virtual void Init()
     {
         _httpClient = Factory.HttpClientFatory.Produce();
     }
@@ -34,7 +34,7 @@ public abstract class Provider
     public virtual async Task<BookInfo[]> SearchBook(string searchText)
     {
         if (MinLength > 0 && searchText.Length < MinLength)
-            return new BookInfo[0];
+            return Array.Empty<BookInfo>();
         var html = await HttpGet(ConstructSearchUrl(searchText));
         return ParseRespose(html);
     }

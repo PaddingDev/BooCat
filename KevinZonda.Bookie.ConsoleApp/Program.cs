@@ -50,6 +50,11 @@ while (true)
                 dic["g"] = new LibGen();
             p = dic["g"];
             break;
+        case "o":
+            if (!dic.ContainsKey("o"))
+                dic["o"] = new OpenLibrary();
+            p = dic["o"];
+            break;
         default:
             Console.WriteLine("Error: Not valid provider!");
             continue;

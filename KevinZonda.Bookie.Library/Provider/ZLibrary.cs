@@ -3,6 +3,7 @@
 using KevinZonda.Bookie.Library.Models;
 
 namespace KevinZonda.Bookie.Library.Provider;
+
 public sealed class ZLibrary : Provider
 {
     protected override string _searchPrefix => "https://b-ok.cc/s/?q=";

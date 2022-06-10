@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KevinZonda.Bookie.Library\Library.csproj" />
+    <ProjectReference Include="..\KevinZonda.Bookie.Library\KevinZonda.Bookie.Library.csproj" />
   </ItemGroup>
 
 </Project>

@@ -108,10 +108,23 @@ public static class Extension
         return arr[index];
     }
 
+    public static T SafeIndex<T>(this List<T> arr, int index, T ifOutOfBound = default(T))
+    {
+        if (arr == null) return ifOutOfBound;
+        if (index < 0 || index >= arr.Count) return ifOutOfBound;
+        return arr[index];
+    }
+
     public static string SafeTrim(this string s)
     {
         if (string.IsNullOrEmpty(s)) return s;
         return s.Trim();
+    }
+
+    public static T[] SafeToArray<T>(this List<T> l)
+    {
+        if (l == null) return new T[] { };
+        return l.ToArray();
     }
 
     public static T IfNull<T>(this T t, Func<T> ifNull)
