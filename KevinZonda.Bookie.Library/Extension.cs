@@ -93,11 +93,6 @@ public static class Extension
             l.Add(item);
     }
 
-    public static T IfNullThen<T>(this T t, T value)
-    {
-        return t == null ? value : t;
-    }
-
     public static T[] ToSingleArray<T>(this T t)
     {
         if (t == null) return new T[] { };
@@ -136,4 +131,10 @@ public static class Extension
     {
         return t == null ? ifNull : ifNotNul(t);
     }
+
+    public static T IfNull<T>(this T t, T ifNull)
+    {
+        return t == null ? ifNull : t;
+    }
+
 }

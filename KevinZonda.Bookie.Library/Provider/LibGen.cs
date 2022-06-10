@@ -37,7 +37,7 @@ public class LibGen : Provider
         // 0 -> Basic
         var basicInfo = ParseBasicInfo(ns[0]);
         // 1 -> Authors
-        var author = ns[1].InnerText.IfNullThen("").TrimSplit(';');
+        var author = ns[1].InnerText.IfNull("").TrimSplit(';');
 
         // 2 -> Publisher
         var publish = ns[2].IfNull(null, x => x.InnerText);
