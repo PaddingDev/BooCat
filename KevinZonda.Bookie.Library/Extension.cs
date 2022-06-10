@@ -74,4 +74,29 @@ public static class Extension
             return (false, default(T), ex);
         }
     }
+
+    public static void AddIfNotNull<T>(this List<T> l, T? item)
+    {
+        if (item != null)
+            l.Add(item);
+    }
+
+    public static T IfNullThen<T>(this T t, T value)
+    {
+        return t == null ? value : t;
+    }
+
+    public static T[] ToSingleArray<T>(this T t)
+    {
+        if (t == null) return new T[] { };
+        return new T[] { t };
+    }
+
+    public static string[] TrimSplit(this string s, char c)
+    {
+        if (string.IsNullOrEmpty(s)) return new string[] { };
+        var n = s.Trim(c);
+        if (string.IsNullOrEmpty(n)) return new string[] { };
+        return n.Split(c);
+    }
 }
