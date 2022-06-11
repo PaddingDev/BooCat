@@ -8,6 +8,7 @@ A universal book search platform which allows you to search several providers by
 - [x] Library Genesis
 - [x] Open Library
 - [x] Memory of the World
+- [x] The Online Books Page by UPenn
 
 ## Tech Stacks
 

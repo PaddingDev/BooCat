@@ -41,6 +41,16 @@ public static class MainFunction
         return await ProviderRequest("g", name);
     }
 
+    [FunctionName("OnlineBooks")]
+    public static async Task<IActionResult> RunOneLineBooks(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+        ILogger log)
+    {
+
+        string name = req.Query["name"];
+        return await ProviderRequest("b", name);
+    }
+
     private static async Task<IActionResult> ProviderRequest(string v, string name)
     {
         if (string.IsNullOrWhiteSpace(name))

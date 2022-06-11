@@ -71,6 +71,7 @@ void PrintHello()
     Console.WriteLine("Where [lib] ::= z for Z-Lib   |");
     Console.WriteLine("                g for LibGen  |");
     Console.WriteLine("                o for OpenLib |");
+    Console.WriteLine("                b for The Online Books |");
     Console.WriteLine("                m for Memory of the World");
     Console.WriteLine("      [BookName] ::= Σ*");
     Console.WriteLine("===============================");
