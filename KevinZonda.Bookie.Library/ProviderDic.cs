@@ -7,7 +7,8 @@ public enum ProviderType
     OpenLibrary,
     ZLibrary,
     LibraryGenesis,
-    MemoryOfTheWorld
+    MemoryOfTheWorld,
+    TheOnlineBooks
 }
 public class ProviderDic
 {
@@ -23,6 +24,7 @@ public class ProviderDic
             ProviderType.ZLibrary => new ZLibrary(),
             ProviderType.LibraryGenesis => new LibGen(),
             ProviderType.MemoryOfTheWorld => new MemOfTheWorld(),
+            ProviderType.TheOnlineBooks => new TheOnlineBooks(),
             _ => throw new ArgumentException("Unknown ProviderType")
         };
     }
@@ -45,6 +47,7 @@ public class ProviderDic
             "g" => this[ProviderType.LibraryGenesis],
             "m" => this[ProviderType.MemoryOfTheWorld],
             "o" => this[ProviderType.OpenLibrary],
+            "b" => this[ProviderType.TheOnlineBooks],
             _ => throw new ArgumentException("Unknown ProviderType")
         };
     }
