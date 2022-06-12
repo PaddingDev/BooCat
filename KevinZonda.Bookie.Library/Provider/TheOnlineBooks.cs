@@ -9,7 +9,7 @@ public sealed class TheOnlineBooks : Provider
 
     protected override string _baseUrl => "https://onlinebooks.library.upenn.edu";
 
-    protected override BookInfo[] ParseRespose(string response)
+    protected override BookInfo[] ParseResponse(string response)
     {
         var html = new HtmlDocument();
         html.LoadHtml(response);

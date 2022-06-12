@@ -9,7 +9,7 @@ public sealed class LibGen : Provider
     protected override string _baseUrl => "https://libgen.li";
     public override int MinLength => 3;
 
-    protected override BookInfo[] ParseRespose(string response)
+    protected override BookInfo[] ParseResponse(string response)
     {
         var list = new List<BookInfo>();
         var html = new HtmlDocument();

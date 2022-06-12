@@ -10,7 +10,7 @@ public sealed class ZLibrary : Provider
     protected override string _baseUrl => "https://b-ok.cc";
     public override int MinLength => 2;
 
-    protected override BookInfo[] ParseRespose(string response)
+    protected override BookInfo[] ParseResponse(string response)
     {
         var list = new List<BookInfo>();
 

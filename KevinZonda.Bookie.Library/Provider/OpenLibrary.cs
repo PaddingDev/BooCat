@@ -11,7 +11,7 @@ public class OpenLibrary : Provider
 
     protected override string _baseUrl => "https://openlibrary.org";
 
-    protected override BookInfo[] ParseRespose(string response)
+    protected override BookInfo[] ParseResponse(string response)
     {
         var result = JsonSerializer.Deserialize<ResultModel>(response);
         var list = new List<BookInfo>();

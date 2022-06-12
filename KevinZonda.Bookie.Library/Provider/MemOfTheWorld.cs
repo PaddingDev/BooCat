@@ -10,7 +10,7 @@ public sealed class MemOfTheWorld : Provider
 
     protected override string _baseUrl => throw new NotImplementedException();
 
-    protected override BookInfo[] ParseRespose(string response)
+    protected override BookInfo[] ParseResponse(string response)
     {
         var result = JsonSerializer.Deserialize<ResultModel>(response);
         var list = new List<BookInfo>();

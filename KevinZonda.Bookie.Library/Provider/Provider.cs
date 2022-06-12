@@ -51,7 +51,7 @@ public abstract class Provider
             return (Array.Empty<BookInfo>(), html.Err);
         try
         {
-            return (ParseRespose(html.Html), null);
+            return (ParseResponse(html.Html), null);
         }
         catch (Exception ex)
         {
@@ -59,7 +59,7 @@ public abstract class Provider
         }
     }
 
-    protected abstract BookInfo[] ParseRespose(string response);
+    protected abstract BookInfo[] ParseResponse(string response);
 
     protected virtual string ConstructSearchUrl(string searchText)
     {
