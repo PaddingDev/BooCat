@@ -39,7 +39,7 @@ public class ProviderDic
         }
     }
 
-    public Provider.Provider this[string x]
+    public Provider.Provider? this[string x]
     {
         get => x switch
         {
@@ -48,7 +48,7 @@ public class ProviderDic
             "m" => this[ProviderType.MemoryOfTheWorld],
             "o" => this[ProviderType.OpenLibrary],
             "b" => this[ProviderType.TheOnlineBooks],
-            _ => throw new ArgumentException("Unknown ProviderType")
+            _ => null
         };
     }
 }

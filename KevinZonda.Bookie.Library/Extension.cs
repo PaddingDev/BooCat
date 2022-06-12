@@ -80,6 +80,18 @@ public static class Extension
             return (false, default(T), ex);
         }
     }
+    public static T OnlyTry<T>(Func<T> f)
+    {
+        try
+        {
+            return f();
+        }
+        catch (Exception)
+        {
+            return default;
+        }
+    }
+
 
     public static void AddIfNotNull<T>(this List<T> l, T? item)
     {

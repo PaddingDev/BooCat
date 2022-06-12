@@ -32,24 +32,22 @@ while (true)
                 continue;
         }
     }
-    var provider = Extension.Try(() => 
+    var provider = dic[cmd[0]];
+
+    if (provider == null)
     {
-        return dic[cmd[0]];
-    });
-    if (!provider.IsOk)
-    {
-        Error("No valid provieder!");
+        Error("No valid provider!");
         continue;
     }
 
-    var m = Extension.Try(() => provider.Value.SearchBook(cmd[1]).Result);
-    if (!m.IsOk)
+    var m = provider.SearchBook(cmd[1]).Result;
+    if (m.Err != null)
     {
-        Error("Comand run error!\n" + m.Ex);
+        Error("Command run error!\n" + m.Err);
         continue;
     }
 
-    foreach (var item in m.Value!)
+    foreach (var item in m.Infos!)
     {
         Console.WriteLine(item);
     }

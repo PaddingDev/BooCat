@@ -8,7 +8,7 @@ using KevinZonda.Bookie.Library;
 
 namespace KevinZonda.Bookie.FunctionApp;
 
-public static class MainFunction
+public static partial class MainFunction
 {
     private static ProviderDic dic = new ProviderDic();
 
@@ -58,6 +58,9 @@ public static class MainFunction
         var p = dic[v];
         if (p == null)
             return new BadRequestObjectResult("Not Valid Provider");
-        return new OkObjectResult(await p.SearchBook(name));
+        var r = await p.SearchBook(name);
+        if (r.Err != null)
+            return new BadRequestObjectResult(r.Err);
+        return new OkObjectResult(r.Infos);
     }
 }

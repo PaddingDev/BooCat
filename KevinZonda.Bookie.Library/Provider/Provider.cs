@@ -24,19 +24,39 @@ public abstract class Provider
         _httpClient = Factory.HttpClientFatory.Produce();
     }
 
-    protected async Task<string> HttpGet(string url)
+    protected async Task<(string Html, Exception? Err)> HttpGet(string url)
     {
-        var response = await _httpClient.GetAsync(url);
-        return await response.Content.ReadAsStringAsync();
+        try
+        {
+            var response = await _httpClient.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                return (await response.Content.ReadAsStringAsync(), null);
+            }
+        }
+        catch (Exception ex)
+        {
+            return ("", ex);
+        }
+        return ("", new Exception("Upstream API response is not 200"));
     }
 
 
-    public virtual async Task<BookInfo[]> SearchBook(string searchText)
+    public virtual async Task<(BookInfo[] Infos, Exception? Err)> SearchBook(string searchText)
     {
         if (MinLength > 0 && searchText.Length < MinLength)
-            return Array.Empty<BookInfo>();
+            return (Array.Empty<BookInfo>(), new Exception("Search text is too short"));
         var html = await HttpGet(ConstructSearchUrl(searchText));
-        return ParseRespose(html);
+        if (html.Err != null)
+            return (Array.Empty<BookInfo>(), html.Err);
+        try
+        {
+            return (ParseRespose(html.Html), null);
+        }
+        catch (Exception ex)
+        {
+            return (Array.Empty<BookInfo>(), ex);
+        }
     }
 
     protected abstract BookInfo[] ParseRespose(string response);
