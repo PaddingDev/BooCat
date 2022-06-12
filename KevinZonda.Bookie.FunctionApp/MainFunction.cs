@@ -5,6 +5,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using KevinZonda.Bookie.Library;
+using System;
 
 namespace KevinZonda.Bookie.FunctionApp;
 
@@ -54,13 +55,29 @@ public static partial class MainFunction
     private static async Task<IActionResult> ProviderRequest(string v, string name)
     {
         if (string.IsNullOrWhiteSpace(name))
-            return new BadRequestObjectResult("Not Valid Name");
+            return new BadRequestObjectResult((ErrModel)"Not Valid Name");
         var p = dic[v];
         if (p == null)
-            return new BadRequestObjectResult("Not Valid Provider");
+            return new BadRequestObjectResult((ErrModel)"Not Valid Provider");
         var r = await p.SearchBook(name);
         if (r.Err != null)
-            return new BadRequestObjectResult(r.Err);
+            return new BadRequestObjectResult((ErrModel)r.Err);
         return new OkObjectResult(r.Infos);
+    }
+
+    private class ErrModel
+    {
+        public string Msg { get; set; }
+        public string Source { get; set; }
+
+        public static explicit operator ErrModel(Exception v)
+        {
+            return new ErrModel { Msg = v.Message, Source = v.Source.ToString() };
+        }
+        
+        public static explicit operator ErrModel(string v)
+        {
+            return new ErrModel { Msg = v };
+        }
     }
 }
