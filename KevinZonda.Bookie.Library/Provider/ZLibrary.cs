@@ -44,7 +44,7 @@ public sealed class ZLibrary : Provider
 
         var book = new BookInfo()
         {
-            ID = bookId.Value!,
+            ID = bookId.Value,
         };
 
         var count = last.Count;
@@ -122,7 +122,7 @@ public sealed class ZLibrary : Provider
                 continue;
             var propertyType = classValue.Substring("bookProperty ".Length);
             var valueNode = child.ChildNodes.Find("class", "property_value");
-            string? value = valueNode == null ? null : valueNode.InnerText;
+            string? value = valueNode.IfNullElse(null, x => x!.InnerHtml);
 
             switch (propertyType)
             {
@@ -135,8 +135,10 @@ public sealed class ZLibrary : Provider
                 case "property__file":
                     if (value == null) continue;
                     var x = value.Split(',');
-                    ftype = x[0].Trim();
-                    fsize = x[1].Trim();
+                    if (x.Length < 1) continue;
+                    ftype = x[0].SafeTrim();
+                    if (x.Length < 2) continue;
+                    fsize = x[1].SafeTrim();
                     break;
             }
         }
