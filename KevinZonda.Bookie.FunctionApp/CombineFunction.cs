@@ -34,7 +34,7 @@ public static partial class MainFunction
             if (p == null) continue;
             _dic.Add(provider, p.SearchBook(name));
         }
-        Task.WaitAll(_dic.Values.ToArray(), 10000);
+        await Task.Factory.StartNew(() => Task.WaitAll(_dic.Values.ToArray(), 10000));
 
         var _resultDic = new Dictionary<string, BookInfo[]>();
         foreach (var kvp in _dic)
