@@ -39,9 +39,11 @@ public static partial class MainFunction
         var _resultDic = new Dictionary<string, BookInfo[]>();
         foreach (var kvp in _dic)
         {
-            var rst = kvp.Value.Result;
-            if (rst.Err != null) continue;
-            _resultDic.Add(kvp.Key, rst.Infos);
+            var rst = kvp.Value;
+            if (!rst.IsCompleted) continue;
+            var value = rst.Result;
+            if (value.Err != null) continue;
+            _resultDic.Add(kvp.Key, value.Infos);
         }
         return new OkObjectResult(_resultDic);
     }

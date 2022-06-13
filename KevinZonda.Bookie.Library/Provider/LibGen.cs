@@ -67,7 +67,7 @@ public sealed class LibGen : Provider
         return book;
     }
 
-    private (string Name, string? Uri)? ParseBasicInfo(HtmlNode n)
+    private static (string Name, string? Uri)? ParseBasicInfo(HtmlNode n)
     {
         if (n == null) return null;
         var x = n.SelectSingleNode("b/a")

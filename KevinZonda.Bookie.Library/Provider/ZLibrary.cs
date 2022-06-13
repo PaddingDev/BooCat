@@ -89,16 +89,16 @@ public sealed class ZLibrary : Provider
         var author = new List<string>();
         foreach (var div in divs)
         {
-            var classAttr = div.ContainsAttribute("class");
-            if (classAttr.IsContains && classAttr.Value!.ToLower() == "authors")
+            var (IsContains, Value) = div.ContainsAttribute("class");
+            if (IsContains && Value!.ToLower() == "authors")
             {
                 var authors = div.SelectNodes("a");
-                author.AddInnerHtml(authors);
+                author.AddInnerText(authors);
             }
             else
             {
                 var publishers = div.SelectNodes("a");
-                publisher.AddInnerHtml(publishers);
+                publisher.AddInnerText(publishers);
             }
 
         }

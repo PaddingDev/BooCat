@@ -38,7 +38,7 @@ public sealed class MemOfTheWorld : Provider
         return list.ToArray();
     }
 
-    private string Id2Url(string id)
+    private static string Id2Url(string id)
     {
         return "https://library.memoryoftheworld.org/#/book/" + id;
     }

@@ -41,12 +41,12 @@ public static class Extension
         Console.WriteLine();
     }
 
-    public static void AddInnerHtml(this List<string> l, HtmlNodeCollection c)
+    public static void AddInnerText(this List<string> l, HtmlNodeCollection c)
     {
         if (c == null) return;
         foreach (var n in c)
         {
-            l.Add(n.InnerHtml);
+            l.Add(n.InnerText);
         }
     }
 
