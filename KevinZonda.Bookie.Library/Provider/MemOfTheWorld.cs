@@ -14,6 +14,7 @@ public sealed class MemOfTheWorld : Provider
     {
         var result = JsonSerializer.Deserialize<ResultModel>(response);
         var list = new List<BookInfo>();
+        if (result == null) return list.ToArray();
         foreach (var item in result.Items)
         {
             var book = new BookInfo

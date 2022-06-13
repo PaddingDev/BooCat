@@ -34,38 +34,37 @@ public sealed class LibGen : Provider
     {
         var ns = node.SelectNodes("td");
         if (ns.Count < 8) return null;
+        var book = new BookInfo();
         // 0 -> Basic
         var basicInfo = ParseBasicInfo(ns[0]);
+        if (basicInfo != null)
+        {
+            book.ID = basicInfo.Value.Uri.SafeSplit('=').SafeIndex(1);
+            book.Name = basicInfo.Value.Name;
+            book.Url = Uri2Url(basicInfo?.Uri);
+        }
         // 1 -> Authors
         var author = ns[1].InnerText.IfNull("").TrimSplit(';');
+        book.Authors = author;
 
         // 2 -> Publisher
-        var publish = ns[2].IfNull(null, x => x.InnerText);
+        var publish = ns[2].IfNullElse(null, x => x.InnerText);
+        book.Publishers = publish.ToSingleArray();
         // 3 -> Year
-        var year = ns[3].IfNull(null, x => x.InnerText);
+        var year = ns[3].IfNullElse(null, x => x.InnerText);
+        book.Date = year;
         // 4 -> Lang
-        var lang = ns[4].IfNull(null, x => x.InnerText.TrimSplit(';').SafeIndex(0, null));
+        book.Language = ns[4].IfNullElse(null, x => x.InnerText.TrimSplit(';').SafeIndex(0, null));
         // 5 -> Pages
         // Ignore
 
         // 6 -> FileSize
-        var size = ns[6].IfNull(null, x => x.InnerText);
+        book.FileSize = ns[6].IfNullElse(null, x => x.InnerText);
         // 7 -> FileType
-        var type = ns[7].IfNull(null, x => x.InnerText);
+        book.FileType = ns[7].IfNullElse(null, x => x.InnerText);
         // 8 -> Mirror
         // Ignore
-        return new BookInfo
-        {
-            ID = basicInfo?.Uri.Split('=').SafeIndex(1),
-            Name = basicInfo?.Name,
-            Url = Uri2Url(basicInfo?.Uri),
-            Publishers = publish.ToSingleArray(),
-            Authors = author,
-            Date = year,
-            Language = lang,
-            FileSize = size,
-            FileType = type
-        };
+        return book;
     }
 
     private (string Name, string? Uri)? ParseBasicInfo(HtmlNode n)

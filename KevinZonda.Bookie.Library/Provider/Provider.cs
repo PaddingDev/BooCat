@@ -66,7 +66,7 @@ public abstract class Provider
         return _searchPrefix + HttpUtility.UrlEncode(searchText);
     }
 
-    protected virtual string? Uri2Url(string uri)
+    protected virtual string? Uri2Url(string? uri)
     {
         if (uri == null) return null;
         if (uri.StartsWith("/")) return _baseUrl + uri;

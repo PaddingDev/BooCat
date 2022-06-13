@@ -80,7 +80,7 @@ public static class Extension
             return (false, default(T), ex);
         }
     }
-    public static T OnlyTry<T>(Func<T> f)
+    public static T? OnlyTry<T>(Func<T> f)
     {
         try
         {
@@ -99,7 +99,7 @@ public static class Extension
             l.Add(item);
     }
 
-    public static T[] ToSingleArray<T>(this T t)
+    public static T[] ToSingleArray<T>(this T? t)
     {
         if (t == null) return new T[] { };
         return new T[] { t };
@@ -113,14 +113,20 @@ public static class Extension
         return n.Split(c);
     }
 
-    public static T SafeIndex<T>(this T[] arr, int index, T ifOutOfBound = default(T))
+    public static string[] SafeSplit(this string? s, char separator)
+    {
+        if (s == null) return new string[] { };
+        return s.Split(separator);
+    }
+
+    public static T? SafeIndex<T>(this T[] arr, int index, T? ifOutOfBound = default)
     {
         if (arr == null) return ifOutOfBound;
         if (index < 0 || index >= arr.Length) return ifOutOfBound;
         return arr[index];
     }
 
-    public static T SafeIndex<T>(this List<T> arr, int index, T ifOutOfBound = default(T))
+    public static T? SafeIndex<T>(this List<T> arr, int index, T? ifOutOfBound = default)
     {
         if (arr == null) return ifOutOfBound;
         if (index < 0 || index >= arr.Count) return ifOutOfBound;
@@ -146,7 +152,7 @@ public static class Extension
         return t;
     }
 
-    public static R IfNull<R, T>(this T t, R ifNull, Func<T, R> ifNotNul)
+    public static R IfNullElse<R, T>(this T t, R ifNull, Func<T, R> ifNotNul)
     {
         return t == null ? ifNull : ifNotNul(t);
     }
