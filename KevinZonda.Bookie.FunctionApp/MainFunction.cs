@@ -52,6 +52,16 @@ public static partial class MainFunction
         return await ProviderRequest("b", name);
     }
 
+    [FunctionName("OpenLib")]
+    public static async Task<IActionResult> RunOneLib(
+    [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+    ILogger log)
+    {
+
+        string name = req.Query["name"];
+        return await ProviderRequest("o", name);
+    }
+
     private static async Task<IActionResult> ProviderRequest(string v, string name)
     {
         if (string.IsNullOrWhiteSpace(name))
