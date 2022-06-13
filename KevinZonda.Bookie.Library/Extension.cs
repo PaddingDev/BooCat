@@ -2,7 +2,7 @@
 
 namespace KevinZonda.Bookie.Library;
 public static class Extension
-{   
+{
     public static (bool IsContains, string? Value) ContainsAttribute(
         this HtmlNode node,
         string attr)
@@ -29,17 +29,21 @@ public static class Extension
         return (false, null);
     }
 
-    public static void PrintAttribute(this HtmlAttributeCollection collection)
+    public static void PrintAttribute(this HtmlNode node)
     {
+        if (node == null) return;
+        var collection = node.Attributes;
+        if (collection == null) return;
         foreach (var a in collection)
         {
-            Console.Write($"{a.Name}:{a.Value}");
+            Console.Write($"{a.Name}:{a.Value}; ");
         }
         Console.WriteLine();
     }
 
     public static void AddInnerHtml(this List<string> l, HtmlNodeCollection c)
     {
+        if (c == null) return;
         foreach (var n in c)
         {
             l.Add(n.InnerHtml);
@@ -101,15 +105,15 @@ public static class Extension
 
     public static T[] ToSingleArray<T>(this T? t)
     {
-        if (t == null) return new T[] { };
+        if (t == null) return Array.Empty<T>();
         return new T[] { t };
     }
 
     public static string[] TrimSplit(this string s, char c)
     {
-        if (string.IsNullOrEmpty(s)) return new string[] { };
+        if (string.IsNullOrEmpty(s)) return Array.Empty<string>();
         var n = s.Trim(c);
-        if (string.IsNullOrEmpty(n)) return new string[] { };
+        if (string.IsNullOrEmpty(n)) return Array.Empty<string>();
         return n.Split(c);
     }
 
@@ -145,21 +149,20 @@ public static class Extension
         return l.ToArray();
     }
 
-    public static T IfNull<T>(this T t, Func<T> ifNull)
+    public static T IfNullThen<T>(this T t, Func<T> ifNull)
     {
         if (t == null)
             return ifNull();
         return t;
     }
+    public static T IfNullThen<T>(this T t, T ifNull)
+    {
+        return t == null ? ifNull : t;
+    }
+
 
     public static R IfNullElse<R, T>(this T t, R ifNull, Func<T, R> ifNotNul)
     {
         return t == null ? ifNull : ifNotNul(t);
     }
-
-    public static T IfNull<T>(this T t, T ifNull)
-    {
-        return t == null ? ifNull : t;
-    }
-
 }

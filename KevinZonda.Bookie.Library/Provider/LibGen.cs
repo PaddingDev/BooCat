@@ -44,7 +44,7 @@ public sealed class LibGen : Provider
             book.Url = Uri2Url(basicInfo?.Uri);
         }
         // 1 -> Authors
-        var author = ns[1].InnerText.IfNull("").TrimSplit(';');
+        var author = ns[1].InnerText.IfNullThen("").TrimSplit(';');
         book.Authors = author;
 
         // 2 -> Publisher
@@ -71,7 +71,7 @@ public sealed class LibGen : Provider
     {
         if (n == null) return null;
         var x = n.SelectSingleNode("b/a")
-                         .IfNull(() => n.SelectSingleNode("a"));
+                         .IfNullThen(() => n.SelectSingleNode("a"));
         if (x == null) return null;
 
         var linkAttr = x.ContainsAttribute("href");
