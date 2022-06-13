@@ -68,11 +68,11 @@ public static partial class MainFunction
     private class ErrModel
     {
         public string Msg { get; set; }
-        public string Source { get; set; }
+        public string? Source { get; set; }
 
         public static explicit operator ErrModel(Exception v)
         {
-            return new ErrModel { Msg = v.Message, Source = v.Source.ToString() };
+            return new ErrModel { Msg = v.Message, Source = v.Source };
         }
         
         public static explicit operator ErrModel(string v)
