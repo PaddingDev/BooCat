@@ -1,7 +1,8 @@
 name: Deploy to Azure Function (Linux)
 
 on:
-  [push]
+  push:
+    branches: [ "master" ]
 
 env:
   AZURE_FUNCTIONAPP_NAME: bookie-func
