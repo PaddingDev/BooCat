@@ -5,7 +5,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using KevinZonda.Bookie.Library;
-using System;
+using KevinZonda.Bookie.FunctionApp.Model;
 
 namespace KevinZonda.Bookie.FunctionApp;
 
@@ -18,8 +18,7 @@ public static partial class MainFunction
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
         ILogger log)
     {
-        string name = req.Query["name"];
-        return await ProviderRequest("z", name);
+        return await ProviderRequest("z", req);
     }
 
     [FunctionName("Mem")]
@@ -27,9 +26,7 @@ public static partial class MainFunction
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
         ILogger log)
     {
-
-        string name = req.Query["name"];
-        return await ProviderRequest("m", name);
+        return await ProviderRequest("m", req);
     }
 
     [FunctionName("LibGen")]
@@ -37,9 +34,7 @@ public static partial class MainFunction
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
         ILogger log)
     {
-
-        string name = req.Query["name"];
-        return await ProviderRequest("g", name);
+        return await ProviderRequest("g", req);
     }
 
     [FunctionName("OnlineBooks")]
@@ -47,9 +42,7 @@ public static partial class MainFunction
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
         ILogger log)
     {
-
-        string name = req.Query["name"];
-        return await ProviderRequest("b", name);
+        return await ProviderRequest("b", req);
     }
 
     [FunctionName("OpenLib")]
@@ -57,13 +50,17 @@ public static partial class MainFunction
     [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
     ILogger log)
     {
-
-        string name = req.Query["name"];
-        return await ProviderRequest("o", name);
+        return await ProviderRequest("o", req);
     }
 
-    private static async Task<IActionResult> ProviderRequest(string v, string name)
+    private static async Task<IActionResult> ProviderRequest(string v, HttpRequest req)
     {
+        if (!req.Query.ContainsKey("name"))
+            return new BadRequestObjectResult((ErrModel)"Not Valid Parameter");
+
+        string name = req.Query["name"];
+
+
         if (string.IsNullOrWhiteSpace(name))
             return new BadRequestObjectResult((ErrModel)"Not Valid Name");
         var p = dic[v];
@@ -73,27 +70,5 @@ public static partial class MainFunction
         if (r.Err != null)
             return new BadRequestObjectResult((ErrModel)r.Err);
         return new OkObjectResult(r.Infos);
-    }
-
-    private class ErrModel
-    {
-        public string Msg { get; set; }
-        public string? Source { get; set; }
-
-        public ErrModel(string msg, string? source = null)
-        {
-            Msg = msg;
-            Source = source;
-        }
-
-        public static explicit operator ErrModel(Exception v)
-        {
-            return new ErrModel(v.Message, v.Source);
-        }
-
-        public static explicit operator ErrModel(string v)
-        {
-            return new ErrModel(v);
-        }
     }
 }

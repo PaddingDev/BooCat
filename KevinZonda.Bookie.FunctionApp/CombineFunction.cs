@@ -1,4 +1,5 @@
-﻿using KevinZonda.Bookie.Library.Models;
+﻿using KevinZonda.Bookie.FunctionApp.Model;
+using KevinZonda.Bookie.Library.Models;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
