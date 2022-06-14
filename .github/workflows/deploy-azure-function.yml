@@ -30,14 +30,12 @@ jobs:
         popd
     - name: 'Deploy to Azure Function UK'
       uses: Azure/functions-action@v1
-      id: fa
       with:
         app-name: ${{ env.AZURE_FUNC_NAME_UK }}
         package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
         publish-profile: ${{ secrets.AZURE_FUNC_UK }}
     - name: 'Deploy to Azure Function HK'
       uses: Azure/functions-action@v1
-      id: fa
       with:
         app-name: ${{ env.AZURE_FUNC_NAME_HK }}
         package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
