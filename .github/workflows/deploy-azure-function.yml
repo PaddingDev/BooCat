@@ -5,7 +5,8 @@ on:
     branches: [ "master" ]
 
 env:
-  AZURE_FUNCTIONAPP_NAME: bookie-func
+  AZURE_FUNC_NAME_UK: kevin-uk
+  AZURE_FUNC_NAME_HK: kevin-hk
   AZURE_FUNCTIONAPP_PACKAGE_PATH: 'KevinZonda.Bookie.FunctionApp'
   DOTNET_VERSION: '6.0.x'
 
@@ -27,10 +28,17 @@ jobs:
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
         dotnet build --configuration Release --output ./output
         popd
-    - name: 'Run Azure Functions Action'
+    - name: 'Deploy to Azure Function UK'
       uses: Azure/functions-action@v1
       id: fa
       with:
-        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        app-name: ${{ env.AZURE_FUNC_NAME_UK }}
         package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+        publish-profile: ${{ secrets.AZURE_FUNC_UK }}
+    - name: 'Deploy to Azure Function HK'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: ${{ env.AZURE_FUNC_NAME_HK }}
+        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+        publish-profile: ${{ secrets.AZURE_FUNC_HK }}
