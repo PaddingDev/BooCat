@@ -20,8 +20,9 @@ public sealed class TheOnlineBooks : Provider
 
         foreach (var m in n)
         {
+            if (!m.HasChildNodes) continue;
             var bookUrlNode = m.FirstChild;
-            var bookUrl = bookUrlNode.Attributes["href"].Value;
+            var bookUrl = bookUrlNode.Attributes["href"].IfNullElse(null, x => x.Value);
             var nameNode = m.SelectSingleNode("cite");
             if (nameNode == null)
             {
