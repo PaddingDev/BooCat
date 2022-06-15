@@ -37,21 +37,19 @@ public static partial class MainFunction
         }
         await Task.Factory.StartNew(() => Task.WaitAll(_dic.Values.ToArray(), 10000));
 
-        var _resultDic = new Dictionary<string, object>();
-        var _errDic = new Dictionary<string, ErrModel>();
+        var _resultDic = new Dictionary<string, ResultModel>();
         foreach (var kvp in _dic)
         {
             var rst = kvp.Value;
             if (!rst.IsCompleted)
             {
-                _errDic.Add(kvp.Key, (ErrModel)"Not completed.");
+                _resultDic.Add(kvp.Key, (ResultModel)(ErrModel)"Not completed.");
                 continue;
             }
             var value = rst.Result;
-            if (value.Err != null) _errDic.Add(kvp.Key, (ErrModel)value.Err);
-            else _resultDic.Add(kvp.Key, value.Infos);
+            if (value.Err != null) _resultDic.Add(kvp.Key, (ResultModel)value.Err);
+            else _resultDic.Add(kvp.Key, (ResultModel)value.Infos);
         }
-        _resultDic["err"] = _errDic;
         return new OkObjectResult(_resultDic);
     }
 }

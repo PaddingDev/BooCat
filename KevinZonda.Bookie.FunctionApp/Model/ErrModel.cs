@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace KevinZonda.Bookie.FunctionApp.Model;
-internal class ErrModel
+internal sealed class ErrModel
 {
     public string Msg { get; set; }
     public string? Source { get; set; }
