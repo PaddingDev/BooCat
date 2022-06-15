@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "KevinZonda.BooCat.FunctionApp": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 30096,
+      "useSSL": false
+    }
+  }
+}

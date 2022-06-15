@@ -8,7 +8,7 @@ env:
   AZURE_FUNC_NAME_UK: kevin-uk
   AZURE_FUNC_NAME_HK: kevin-hk
   AZURE_FUNC_NAME_US: kevin-us
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'KevinZonda.Bookie.FunctionApp'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'KevinZonda.BooCat.FunctionApp'
   DOTNET_VERSION: '6.0.x'
 
 jobs:

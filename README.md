@@ -1,4 +1,4 @@
-# Bookie
+# BooCat
 
 A universal book search platform which allows you to search several providers by just one-click.
 
