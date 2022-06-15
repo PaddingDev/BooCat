@@ -17,7 +17,7 @@ public static partial class MainFunction
 {
     [FunctionName("AllBooks")]
     public static async Task<IActionResult> RunAll(
-    [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+    [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
     ILogger log)
     {
         string name = req.Query["name"];

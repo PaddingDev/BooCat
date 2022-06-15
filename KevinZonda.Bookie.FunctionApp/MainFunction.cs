@@ -15,7 +15,7 @@ public static partial class MainFunction
 
     [FunctionName("ZLib")]
     public static async Task<IActionResult> Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
         ILogger log)
     {
         return await ProviderRequest("z", req);
@@ -23,7 +23,7 @@ public static partial class MainFunction
 
     [FunctionName("Mem")]
     public static async Task<IActionResult> RunMem(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
         ILogger log)
     {
         return await ProviderRequest("m", req);
@@ -31,7 +31,7 @@ public static partial class MainFunction
 
     [FunctionName("LibGen")]
     public static async Task<IActionResult> RunLibGen(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
         ILogger log)
     {
         return await ProviderRequest("g", req);
@@ -39,7 +39,7 @@ public static partial class MainFunction
 
     [FunctionName("OnlineBooks")]
     public static async Task<IActionResult> RunOneLineBooks(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
         ILogger log)
     {
         return await ProviderRequest("b", req);
@@ -47,7 +47,7 @@ public static partial class MainFunction
 
     [FunctionName("OpenLib")]
     public static async Task<IActionResult> RunOneLib(
-    [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+    [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
     ILogger log)
     {
         return await ProviderRequest("o", req);
