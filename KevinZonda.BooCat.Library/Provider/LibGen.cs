@@ -70,6 +70,7 @@ public sealed class LibGen : Provider
     private static (string Name, string? Uri)? ParseBasicInfo(HtmlNode n)
     {
         var bNode = n.SelectSingleNode("b");
+        if (bNode == null) bNode = n.SelectSingleNode("a");
         if (bNode == null) return null;
         var name = bNode.InnerText.SafeTrim();
 
