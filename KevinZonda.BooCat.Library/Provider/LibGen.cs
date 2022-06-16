@@ -83,7 +83,7 @@ public sealed class LibGen : Provider
         string? url = null;
         if (urlNode != null)
         {
-            var (IsContains, Value) = aNode.ContainsAttribute("href");
+            var (IsContains, Value) = urlNode.ContainsAttribute("href");
             if (IsContains) url = Value;
         }
         return (name, url);
