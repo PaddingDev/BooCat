@@ -70,14 +70,18 @@ public sealed class LibGen : Provider
     private static (string Name, string? Uri)? ParseBasicInfo(HtmlNode n)
     {
         var bNode = n.SelectSingleNode("b");
-        var aNode = bNode.SelectSingleNode("a");
+        var aNode = n.SelectSingleNode("a");
         var titleNode = bNode.IfNullThen(aNode);
         
         if (titleNode == null) return null;
         var name = titleNode.InnerText.SafeTrim();
 
+        var urlNode = bNode.IfNullElse(
+            aNode,
+            x => x.SelectSingleNode("a"));
+
         string? url = null;
-        if (aNode != null)
+        if (urlNode != null)
         {
             var (IsContains, Value) = aNode.ContainsAttribute("href");
             if (IsContains) url = Value;
