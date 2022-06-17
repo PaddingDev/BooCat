@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KevinZonda.BooCat.ConsoleAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KevinZonda.BooCat.FunctionApp", "KevinZonda.BooCat.FunctionApp\KevinZonda.BooCat.FunctionApp.csproj", "{9B6EC982-B4C9-4588-99D0-D3B4ACA1EFA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KevinZonda.BooCat.AspNetWebApi", "KevinZonda.BooCat.AspNetWebApi\KevinZonda.BooCat.AspNetWebApi.csproj", "{869D4299-B70D-422B-975B-8C553C5617B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9B6EC982-B4C9-4588-99D0-D3B4ACA1EFA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B6EC982-B4C9-4588-99D0-D3B4ACA1EFA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B6EC982-B4C9-4588-99D0-D3B4ACA1EFA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{869D4299-B70D-422B-975B-8C553C5617B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{869D4299-B70D-422B-975B-8C553C5617B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{869D4299-B70D-422B-975B-8C553C5617B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{869D4299-B70D-422B-975B-8C553C5617B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

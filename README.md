@@ -14,10 +14,7 @@ A universal book search platform which allows you to search several providers by
 
 - [x] .NET 6
 - [x] Azure Function App
-- [ ] ASP.NET Core
-- [ ] Blazor
-- [ ] Razor
-- [ ] WebAssembly
+- [x] ASP.NET Core
 
 ## API Design
 

@@ -4,7 +4,7 @@ using System;
 
 namespace KevinZonda.BooCat.FunctionApp.Model;
 
-internal sealed class ResultModel
+public sealed class ResultModel
 {
     public bool Success { get; set; }
     public BookInfo[]? Books { get; set; }

@@ -17,7 +17,7 @@ public class ProviderDic
     public void LazyInit(ProviderType t)
     {
         if (_dic.ContainsKey(t)) return;
-        
+
         _dic[t] = t switch
         {
             ProviderType.OpenLibrary => new OpenLibrary(),
@@ -41,13 +41,13 @@ public class ProviderDic
 
     public Provider.Provider? this[string x]
     {
-        get => x switch
+        get => x.ToLower() switch
         {
-            "z" => this[ProviderType.ZLibrary],
-            "g" => this[ProviderType.LibraryGenesis],
-            "m" => this[ProviderType.MemoryOfTheWorld],
-            "o" => this[ProviderType.OpenLibrary],
-            "b" => this[ProviderType.TheOnlineBooks],
+            "z" or "zlib" => this[ProviderType.ZLibrary],
+            "g" or "libgen" => this[ProviderType.LibraryGenesis],
+            "m" or "mem" => this[ProviderType.MemoryOfTheWorld],
+            "o" or "openlib" => this[ProviderType.OpenLibrary],
+            "b" or "onlinebooks" => this[ProviderType.TheOnlineBooks],
             _ => null
         };
     }

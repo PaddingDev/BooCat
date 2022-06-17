@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace KevinZonda.BooCat.FunctionApp.Model;
-internal sealed class ErrModel
+public sealed class ErrModel
 {
     public string Msg { get; set; }
     public string? Source { get; set; }
