@@ -1,8 +1,4 @@
-﻿using KevinZonda.BooCat.Library.Models;
-
-using System;
-
-namespace KevinZonda.BooCat.FunctionApp.Model;
+﻿namespace KevinZonda.BooCat.Library.Models.WebAPI;
 
 public sealed class ResultModel
 {

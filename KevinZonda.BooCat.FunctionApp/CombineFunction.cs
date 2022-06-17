@@ -1,5 +1,5 @@
-﻿using KevinZonda.BooCat.FunctionApp.Model;
-using KevinZonda.BooCat.Library.Models;
+﻿using KevinZonda.BooCat.Library.Models;
+using KevinZonda.BooCat.Library.Models.WebAPI;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,5 @@
-using KevinZonda.BooCat.FunctionApp.Model;
 using KevinZonda.BooCat.Library;
+using KevinZonda.BooCat.Library.Models.WebAPI;
 
 namespace KevinZonda.BooCat.AspNetCoreWebAPI.Controllers;
 

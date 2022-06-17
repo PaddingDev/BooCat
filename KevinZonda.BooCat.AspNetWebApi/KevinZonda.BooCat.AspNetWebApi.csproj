@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KevinZonda.BooCat.FunctionApp\KevinZonda.BooCat.FunctionApp.csproj" />
     <ProjectReference Include="..\KevinZonda.BooCat.Library\KevinZonda.BooCat.Library.csproj" />
   </ItemGroup>
 

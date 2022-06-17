@@ -5,7 +5,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using KevinZonda.BooCat.Library;
-using KevinZonda.BooCat.FunctionApp.Model;
+using KevinZonda.BooCat.Library.Models.WebAPI;
 
 namespace KevinZonda.BooCat.FunctionApp;
 

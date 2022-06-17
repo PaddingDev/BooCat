@@ -1,6 +1,5 @@
-﻿using System;
+﻿namespace KevinZonda.BooCat.Library.Models.WebAPI;
 
-namespace KevinZonda.BooCat.FunctionApp.Model;
 public sealed class ErrModel
 {
     public string Msg { get; set; }
