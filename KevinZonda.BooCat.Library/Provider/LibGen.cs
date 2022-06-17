@@ -87,13 +87,14 @@ public sealed class LibGen : Provider
         var n = s.Trim();
         if (string.IsNullOrEmpty(n)) return null;
         n = n.Replace("[...]", "");
+        var sep = n.Contains(';') ? '?' : ',';
         var list = new List<string>();
         string tmp;
         var sb = new StringBuilder();
         int bracketLvl = 0;
         foreach (var c in n)
         {
-            if (c == ',')
+            if (c == sep)
             {
                 if (bracketLvl == 0)
                 {
