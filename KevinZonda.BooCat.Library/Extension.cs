@@ -116,14 +116,6 @@ public static class Extension
         if (string.IsNullOrEmpty(n)) return Array.Empty<string>();
         return n.Split(c);
     }
-    public static string[] TrimSplitTrim(this string s, char[] c)
-    {
-        if (string.IsNullOrEmpty(s)) return Array.Empty<string>();
-        var n = s.Trim(c);
-        if (string.IsNullOrEmpty(n)) return Array.Empty<string>();
-        var sp = n.Split(c);
-        return sp.SelectNotEmpty();
-    }
 
     public static string[] TrimSplitTrim(this string s, char c)
     {

@@ -2,6 +2,8 @@
 
 using KevinZonda.BooCat.Library.Models;
 
+using System.Text;
+
 namespace KevinZonda.BooCat.Library.Provider;
 public sealed class LibGen : Provider
 {
@@ -44,11 +46,8 @@ public sealed class LibGen : Provider
             book.Url = Uri2Url(basicInfo?.Uri);
         }
         // 1 -> Authors
-        var authorText = ns[1].InnerText;
-        if (!string.IsNullOrWhiteSpace(authorText))
-        {
-            book.Authors = authorText.Replace("[...]", "").TrimSplitTrim(new[] { ';', ',' });
-        }
+        var authorText =
+        book.Authors = ParseAuthors(ns[1].InnerText);
 
         // 2 -> Publisher
         var publish = ns[2].IfNullElse(null, x => x.InnerText);
@@ -58,12 +57,12 @@ public sealed class LibGen : Provider
         }
 
         // 3 -> Year
-        book.Date = ns[3].IfNullElse(null, _x => _x.InnerText);
+        book.Date = ns[3].IfNullElse(null, x => x.InnerText);
 
         // 4 -> Lang
-        book.Language = ns[4].IfNullElse(null, _x =>
-                                  _x.InnerText.IfNotNull(
-                                      _y => _y.TrimSplit(';')
+        book.Language = ns[4].IfNullElse(null, x =>
+                                  x.InnerText.IfNotNull(
+                                      y => y.TrimSplit(';')
                                             .SafeIndex(0, null)
                                       )
                                   );
@@ -80,6 +79,37 @@ public sealed class LibGen : Provider
         // 8 -> Mirror
         // Ignore
         return book;
+    }
+
+    private static string[]? ParseAuthors(string? s)
+    {
+        if (s == null) return null;
+        var n = s.Trim();
+        if (string.IsNullOrEmpty(n)) return null;
+        n = n.Replace("[...]", "");
+        var list = new List<string>();
+        string tmp;
+        var sb = new StringBuilder();
+        int bracketLvl = 0;
+        foreach (var c in n)
+        {
+            if (c == ',')
+            {
+                if (bracketLvl == 0)
+                {
+                    tmp = sb.ToString().Trim();
+                    if (!string.IsNullOrEmpty(tmp)) list.Add(tmp);
+                    sb.Clear();
+                    continue;
+                }
+            }
+            if (c == '(') ++bracketLvl;
+            if (c == ')') --bracketLvl;
+            sb.Append(c);
+        }
+        tmp = sb.ToString().Trim();
+        if (!string.IsNullOrEmpty(tmp)) list.Add(tmp);
+        return list.ToArray();
     }
 
     private static (string Name, string? Uri)? ParseBasicInfo(HtmlNode n)
