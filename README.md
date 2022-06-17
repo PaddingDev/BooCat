@@ -89,3 +89,44 @@ Result : {
          }
 ```
 
+## Network Structure
+
+```mermaid
+flowchart TB
+  cli[Client]
+  cdn_cf[CloudFlare]
+
+  cli -- query & request ---> cdn_cf
+  cdn_cf -- proxy ---> fe
+  cdn_cf -- request/query ---> tm
+  cli -- request ---> vm
+  subgraph be [Backend]
+    direction TB
+    tm[Azure Traffic Manager]
+    tm -- point ---> vm
+    subgraph func [Azure Function]
+       direction LR
+       f_us[US]
+       f_uk[UK]
+       f_hk[HK]
+    end
+    subgraph vm [Azure Virtual Machine for API]
+      direction LR
+      vm_us[US] -- proxy & cache ---> f_us
+      vm_uk[UK] -- proxy & cache ---> f_uk
+      vm_hk[HK] -- proxy & cache ---> f_hk
+    end
+  end
+  subgraph fe [Frontend]
+    gh[GitHub Page]
+  end
+  subgraph prov [Provider]
+    direction TB
+    zlib[Z-Library]
+    libgen[Library Genesis]
+    mem[Memory of the World]
+    openlib[Open Library]
+    onlinebooks[The Online Books Page]
+  end
+  func -- request ---> prov
+```
