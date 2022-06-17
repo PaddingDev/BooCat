@@ -44,24 +44,39 @@ public sealed class LibGen : Provider
             book.Url = Uri2Url(basicInfo?.Uri);
         }
         // 1 -> Authors
-        var author = ns[1].InnerText.IfNullThen("").TrimSplit(';');
-        book.Authors = author;
+        var authorText = ns[1].InnerText;
+        if (!string.IsNullOrWhiteSpace(authorText))
+        {
+            book.Authors = authorText.Replace("[...]", "").TrimSplitTrim(new[] { ';', ',' });
+        }
 
         // 2 -> Publisher
         var publish = ns[2].IfNullElse(null, x => x.InnerText);
-        book.Publishers = publish.ToSingleArray();
+        if (!string.IsNullOrWhiteSpace(publish))
+        {
+            book.Publishers = publish.TrimSplitTrim(';');
+        }
+
         // 3 -> Year
-        var year = ns[3].IfNullElse(null, x => x.InnerText);
-        book.Date = year;
+        book.Date = ns[3].IfNullElse(null, _x => _x.InnerText);
+
         // 4 -> Lang
-        book.Language = ns[4].IfNullElse(null, x => x.InnerText.TrimSplit(';').SafeIndex(0, null));
+        book.Language = ns[4].IfNullElse(null, _x =>
+                                  _x.InnerText.IfNotNull(
+                                      _y => _y.TrimSplit(';')
+                                            .SafeIndex(0, null)
+                                      )
+                                  );
+
         // 5 -> Pages
         // Ignore
 
         // 6 -> FileSize
         book.FileSize = ns[6].IfNullElse(null, x => x.InnerText);
+
         // 7 -> FileType
         book.FileType = ns[7].IfNullElse(null, x => x.InnerText);
+
         // 8 -> Mirror
         // Ignore
         return book;
@@ -71,8 +86,8 @@ public sealed class LibGen : Provider
     {
         var bNode = n.SelectSingleNode("b");
         var aNode = n.SelectSingleNode("a");
-        var titleNode = bNode.IfNullThen(aNode);
-        
+        var titleNode = bNode.IfNull(aNode);
+
         if (titleNode == null) return null;
         var name = titleNode.InnerText.SafeTrim();
 
