@@ -12,7 +12,7 @@ app.MapControllers();
 
 app.Map("/api/{req}", async (string req, string name, HttpContext c) =>
 {
-    if (req.ToLower() is not "allbooks" or "all" or "a")
+    if (!(req.ToLower() is "allbooks" or "all" or "a"))
         return await BooCatController.ProviderRequest(req, name);
 
     string[]? providers = c.Request.Query["provider"];
