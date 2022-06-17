@@ -10,11 +10,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Map("/api/{req}", async (string req, string name, string[]? provider) =>
+app.Map("/api/{req}", async (string req, string name, HttpContext c) =>
 {
     if (req.ToLower() is not "allbooks" or "all" or "a")
         return await BooCatController.ProviderRequest(req, name);
-    return await BooCatController.MultipleProviderRequest(provider, name);
+
+    string[]? providers = c.Request.Query["provider"];
+    return await BooCatController.MultipleProviderRequest(providers, name);
 });
 
 app.Run();
