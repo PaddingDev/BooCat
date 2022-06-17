@@ -116,6 +116,36 @@ public static class Extension
         if (string.IsNullOrEmpty(n)) return Array.Empty<string>();
         return n.Split(c);
     }
+    public static string[] TrimSplitTrim(this string s, char[] c)
+    {
+        if (string.IsNullOrEmpty(s)) return Array.Empty<string>();
+        var n = s.Trim(c);
+        if (string.IsNullOrEmpty(n)) return Array.Empty<string>();
+        var sp = n.Split(c);
+        return sp.SelectNotEmpty();
+    }
+
+    public static string[] TrimSplitTrim(this string s, char c)
+    {
+        if (string.IsNullOrEmpty(s)) return Array.Empty<string>();
+        var n = s.Trim(c);
+        if (string.IsNullOrEmpty(n)) return Array.Empty<string>();
+        var sp = n.Split(c);
+        return sp.SelectNotEmpty();
+    }
+
+    public static string[] SelectNotEmpty(this string[] s)
+    {
+        if (s == null || s.Length == 0) return Array.Empty<string>();
+        var l = new List<string>();
+        foreach (var x in s)
+        {
+            var trimed = x.Trim();
+            if (!string.IsNullOrEmpty(trimed))
+                l.Add(trimed);
+        }
+        return l.ToArray();
+    }
 
     public static string[] SafeSplit(this string? s, char separator)
     {
@@ -149,19 +179,27 @@ public static class Extension
         return l.ToArray();
     }
 
-    public static T IfNullThen<T>(this T t, Func<T> ifNull)
+    public static T? IfNull<T>(this T? t, Func<T?> ifNull)
     {
         if (t == null)
             return ifNull();
         return t;
     }
-    public static T IfNullThen<T>(this T t, T ifNull)
+
+    public static T? IfNotNull<T>(this T? t, Func<T, T?> ifNotNull)
+    {
+        if (t != null)
+            return ifNotNull(t);
+        return t;
+    }
+
+    public static T IfNull<T>(this T? t, T ifNull)
     {
         return t == null ? ifNull : t;
     }
 
 
-    public static R IfNullElse<R, T>(this T t, R ifNull, Func<T, R> ifNotNul)
+    public static R IfNullElse<R, T>(this T? t, R ifNull, Func<T, R> ifNotNul)
     {
         return t == null ? ifNull : ifNotNul(t);
     }
