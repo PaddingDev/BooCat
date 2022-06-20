@@ -9,17 +9,20 @@ git pull
 echo "Stopping current services..."
 sudo systemctl stop boocat.service
 
-echo "Creating bin backup..."
-sudo mv /var/boocat/bin /var/boocat/bin.bak
-sudo mkdir /var/boocat/bin -p
-
 echo "Building new version..."
-dotnet publish KevinZonda.BooCat.AspNetWebApi -c Release -o /var/boocat/bin/
+dotnet publish KevinZonda.BooCat.AspNetWebApi -c Release -o /var/boocat/bin-new/
+
+echo "Creating bin backup..."
+sudo mv /var/boocat/bin /var/boocat/bin-bak
+
+echo "Moving new version..."
+sudo mv /var/boocat/bin-new /var/boocat/bin
+
 
 if [ $? -ne 0 ]; then
     echo "Failed to publish, falling back..."
     sudo rm -fr /var/boocat/bin
-    sudo mv /var/boocat/bin.bak /var/boocat/bin
+    sudo mv /var/boocat/bin-bak /var/boocat/bin
     sudo systemctl start boocat.service
     echo "Upgrade failed."
     exit 1
@@ -41,12 +44,13 @@ if [ $? -ne 0 ]; then
     sudo systemctl start boocat.service
     if [ $? -ne 0 ]; then
         echo "Failed to start with old service, falling back bin..."
-        sudo mv /var/boocat/bin.bak /var/boocat/bin
+        sudo mv /var/boocat/bin-bak /var/boocat/bin
+        echo "Upgrade failed."
         exit 1
     fi
 fi
 
 echo "Cleaning..."
-sudo rm -fr /var/boocat/bin.bak
+sudo rm -fr /var/boocat/bin-bak
 
 echo "Upgrade complete."
