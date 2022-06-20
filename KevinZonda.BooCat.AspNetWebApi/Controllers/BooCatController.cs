@@ -37,26 +37,21 @@ public static class BooCatController
             return null;
         }
     }
-    
-    public static async Task<(BookInfo[]? Infos, ErrModel? Err)> GetSearchedBook(Provider? provider, string name)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-            return (null, (ErrModel)"Not Valid Name");
 
-        if (provider == null)
-            return (null, (ErrModel)"Not Valid Provider");
-
-        var (Infos, Err) = await provider.SearchBook(name);
-        return (Infos, Err == null ? null : (ErrModel)Err);
-    }
-    
-
-    public static async Task<(BookInfo[]? Infos, ErrModel? Err)> GetSearchedBook(string provider, string name)
+    public static async Task<(BookInfo[]? Infos, ErrModel? Err)> GetSearchedBook(string provider, string name, IDistributedCache? cache = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             return (null, (ErrModel)"Not Valid Name");
         var p = dic[provider];
-        return await GetSearchedBook(p, name);
+
+        if (p == null)
+            return (null, (ErrModel)"Not Valid Provider");
+
+        var cached = await GetCached(cache, provider, name);
+        if (cached != null) return (cached, null);
+
+        var (Infos, Err) = await p.SearchBook(name);
+        return (Infos, Err == null ? null : (ErrModel)Err);
     }
 
     public static async Task<IResult> ProviderRequest(string provider, string name)
@@ -81,7 +76,7 @@ public static class BooCatController
         {
             var p = dic[provider];
             if (p == null) continue;
-            _dic.Add(provider, GetSearchedBook(p, name));
+            _dic.Add(provider, GetSearchedBook(provider, name));
         }
         await Task.Factory.StartNew(() => Task.WaitAll(_dic.Values.ToArray(), 10000));
 
