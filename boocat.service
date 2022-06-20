@@ -2,7 +2,7 @@
 Description=BooCat API for Linux
 
 [Service]
-WorkingDirectory=/var/BooCat/bin
+WorkingDirectory=/var/boocat/bin
 ExecStart=/usr/bin/dotnet KevinZonda.BooCat.AspNetWebApi.dll
 Restart=always
 RestartSec=10
