@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddStackExchangeRedisCache(x =>
 {
     x.Configuration = builder.Configuration.GetConnectionString("Redis");
-    string absoluteExpire = builder.Configuration["RedisAbsolutExpire"];
+    string absoluteExpire = builder.Configuration["RedisAbsoluteExpire"];
     if (!int.TryParse(absoluteExpire, out int aExp)) aExp = 45; // min
     string slidingExpire = builder.Configuration["RedisSlidingExpire"];
     if (!int.TryParse(slidingExpire, out int sExp)) sExp = 720; // min
@@ -28,10 +28,10 @@ app.MapControllers();
 app.Map("/api/{req}", async (string req, string name, HttpContext c, IDistributedCache? redis) =>
 {
     if (!(req.ToLower() is "allbooks" or "all" or "a"))
-        return await BooCatController.ProviderRequest(req, name);
+        return await BooCatController.ProviderRequest(req, name, redis);
 
     string[]? providers = c.Request.Query["provider"];
-    return await BooCatController.MultipleProviderRequest(providers, name);
+    return await BooCatController.MultipleProviderRequest(providers, name, redis);
 });
 
 app.Run();

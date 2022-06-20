@@ -38,7 +38,7 @@ public static class BooCatController
         {
             var result = await cache.GetStringAsync(GetCachedKey(provider, name));
             if (string.IsNullOrEmpty(result)) return null;
-            return JsonSerializer.Deserialize<BookInfo[]>(result, JsonDeserialiseDefault);
+            return JsonSerializer.Deserialize<BookInfo[]>(result);
         }
         catch
         {
@@ -78,16 +78,16 @@ public static class BooCatController
         return (Infos, Err == null ? null : (ErrModel)Err);
     }
 
-    public static async Task<IResult> ProviderRequest(string provider, string name)
+    public static async Task<IResult> ProviderRequest(string provider, string name, IDistributedCache? cache = null)
     {
-        var (Infos, Err) = await GetSearchedBook(provider, name);
+        var (Infos, Err) = await GetSearchedBook(provider, name, cache);
 
         if (Err != null)
             return Results.BadRequest(Err);
         return Results.Ok(Infos);
     }
 
-    public static async Task<IResult> MultipleProviderRequest(string[]? providers, string name)
+    public static async Task<IResult> MultipleProviderRequest(string[]? providers, string name, IDistributedCache? cache = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             return Results.BadRequest((ErrModel)"Not Valid Name");
@@ -100,7 +100,7 @@ public static class BooCatController
         {
             var p = dic.Regular(provider);
             if (p == null) continue;
-            _dic.Add(p, GetSearchedBook(p, name));
+            _dic.Add(p, GetSearchedBook(p, name, cache));
         }
         await Task.Factory.StartNew(() => Task.WaitAll(_dic.Values.ToArray(), 10000));
 
