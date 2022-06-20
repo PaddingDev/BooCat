@@ -1,7 +1,7 @@
 #!/bin/bash
 
 apt-get update & apt-get upgrade -y
-apt-get install nginx nano -y
+apt-get install nginx nano curl -y
 systemctl enable nginx
 curl https://ssl-config.mozilla.org/ffdhe2048.txt > /var/lib/nginx/dhparam.pem
 chmod +r /var/lib/nginx/dhparam.pem
