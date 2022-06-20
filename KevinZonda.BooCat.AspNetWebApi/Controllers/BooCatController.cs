@@ -1,7 +1,6 @@
 using KevinZonda.BooCat.Library;
 using KevinZonda.BooCat.Library.Models;
 using KevinZonda.BooCat.Library.Models.WebAPI;
-using KevinZonda.BooCat.Library.Provider;
 
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -17,6 +16,15 @@ public static class BooCatController
         DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
+    private static DistributedCacheEntryOptions? CacheOption;
+
+    public static void InitialiseCachOption(TimeSpan absoluteExpiration, TimeSpan slidingExpiration)
+    {
+        CacheOption = new DistributedCacheEntryOptions()
+                              .SetAbsoluteExpiration(absoluteExpiration)
+                              .SetSlidingExpiration(slidingExpiration);
+    }
+
 
     private static string GetCachedKey(string provider, string name)
     {
@@ -38,6 +46,20 @@ public static class BooCatController
         }
     }
 
+    public static async Task<bool> SetCache<T>(IDistributedCache? cache, string provider, string name, T value)
+    {
+        if (cache == null) return false;
+        try
+        {
+            await cache.SetStringAsync(GetCachedKey(provider, name), JsonSerializer.Serialize(value), CacheOption);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public static async Task<(BookInfo[]? Infos, ErrModel? Err)> GetSearchedBook(string provider, string name, IDistributedCache? cache = null)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -51,6 +73,8 @@ public static class BooCatController
         if (cached != null) return (cached, null);
 
         var (Infos, Err) = await p.SearchBook(name);
+        if (Infos != null)
+            await SetCache(cache, provider, name, Infos);
         return (Infos, Err == null ? null : (ErrModel)Err);
     }
 

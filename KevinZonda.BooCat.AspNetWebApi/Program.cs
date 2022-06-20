@@ -12,6 +12,11 @@ builder.Services.AddControllers();
 builder.Services.AddStackExchangeRedisCache(x =>
 {
     x.Configuration = builder.Configuration.GetConnectionString("Redis");
+    string absoluteExpire = builder.Configuration["RedisAbsolutExpire"];
+    if (!int.TryParse(absoluteExpire, out int aExp)) aExp = 45; // min
+    string slidingExpire = builder.Configuration["slidingExpire"];
+    if (!int.TryParse(slidingExpire, out int sExp)) sExp = 720; // min
+    BooCatController.InitialiseCachOption(TimeSpan.FromMinutes(aExp), TimeSpan.FromMinutes(sExp));
 });
 
 var app = builder.Build();
