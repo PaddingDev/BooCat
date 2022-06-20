@@ -51,4 +51,17 @@ public class ProviderDic
             _ => null
         };
     }
+
+    public string? Regular(string s)
+    {
+        return s.ToLower() switch
+        {
+            "z" or "zlib" => "z",
+            "g" or "libgen" => "g",
+            "m" or "mem" => "m",
+            "o" or "openlib" => "o",
+            "b" or "onlinebooks" => "b",
+            _ => null
+        };
+    }
 }

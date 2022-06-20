@@ -74,9 +74,9 @@ public static class BooCatController
         var _dic = new Dictionary<string, Task<(BookInfo[]? Infos, ErrModel? Err)>>();
         foreach (var provider in providers)
         {
-            var p = dic[provider];
+            var p = dic.Regular(provider);
             if (p == null) continue;
-            _dic.Add(provider, GetSearchedBook(provider, name));
+            _dic.Add(p, GetSearchedBook(p, name));
         }
         await Task.Factory.StartNew(() => Task.WaitAll(_dic.Values.ToArray(), 10000));
 
