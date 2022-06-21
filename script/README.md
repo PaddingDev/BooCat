@@ -12,7 +12,7 @@ front limit services to implement such feature. I use Nginx as a proxy service b
 function to prevent abuse. So just use following nginx and similar things:
 
 ```bash
-sudo bash .\init-ngx.sh
+sudo bash ./init-ngx.sh
 ```
 
 ### For Web-API Deployer
@@ -21,13 +21,13 @@ Before everything, you should install basic environment incl. `git`, `dotnet`, `
 `ca-certificates`. With following script to install with one-key:
 
 ```
-sudo bash .\install-env.sh
+sudo bash ./install-env.sh
 ```
 
 After installing all essential tools, install the api as a service is recommanded:
 
 ```bash
-sudo bash .\install-api.sh
+sudo bash ./install-api.sh
 ```
 
 Then your API should be alright to run.
@@ -36,7 +36,5 @@ If you want to upgrade the API to the newest version, use following command. It 
 fall back which allows upgrading services soothly.
 
 ```bash
-
-```bash
-sudo bash .\upd-api.sh
+sudo bash ./upd-api.sh
 ```
