@@ -6,12 +6,15 @@ namespace KevinZonda.BooCat.Library.Provider;
 
 public sealed class ZLibrary : Provider
 {
-    protected override string _searchPrefix => "https://b-ok.cc/s/?q=";
-    protected override string _baseUrl => "https://b-ok.cc";
+    protected override string _searchPrefix => "https://1lib.in/s/?q=";
+    protected override string _baseUrl => "https://1lib.in";
     public override int MinLength => 2;
 
     protected override BookInfo[] ParseResponse(string response)
     {
+        if (response.Contains("Z-Library single sign on"))
+            throw new Exception("ZLib url is out of date, please contact admin to update");
+
         var list = new List<BookInfo>();
 
         var doc = new HtmlDocument();
