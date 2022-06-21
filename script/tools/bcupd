@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo curl https://raw.githubusercontent.com/KevinZonda/BooCat/dev/script/upd-api.sh | bash

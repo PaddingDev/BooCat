@@ -1,0 +1,2 @@
+#!/bin/bash
+tail /www/wwwlogs/boocat-api.log
