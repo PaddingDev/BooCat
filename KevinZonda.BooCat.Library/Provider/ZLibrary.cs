@@ -6,9 +6,51 @@ namespace KevinZonda.BooCat.Library.Provider;
 
 public sealed class ZLibrary : Provider
 {
-    protected override string _searchPrefix => "https://1lib.in/s/?q=";
-    protected override string _baseUrl => "https://1lib.in";
+    protected override string _searchPrefix => _prefix;
+    protected override string _baseUrl => _base;
     public override int MinLength => 2;
+
+    private string _prefix = "https://1lib.in/s/?q=";
+    private string _base = "https://1lib.in";
+    public async Task<bool> UpdateUrlAsync()
+    {
+        var (html, err) = await this.HttpGet("https://z-lib.org/");
+        if (err != null) return false;
+        var doc = new HtmlDocument();
+        doc.LoadHtml(html);
+        //var n = doc.DocumentNode.SelectSingleNode("/html/body/table/tbody/tr/td/div/div/div/div");
+        var n = doc.DocumentNode.SelectSingleNode("//a[contains(., 'Books')]");
+        if (n == null) return false;
+        var (_, value) = n.ContainsAttribute("href");
+        if (value == null) return false;
+        var uri = new UriBuilder(value);
+        uri.Scheme = Uri.UriSchemeHttps;
+        uri.Port = -1;
+        _base = uri.ToString().Trim('/');
+        _prefix = _base + "/s/?q=";
+        return true;
+    }
+
+    protected override void Init()
+    {
+        base.Init();
+
+        try
+        {
+            if (!UpdateUrlAsync().Result)
+                Console.WriteLine("Cannot update zlib's url");
+            else
+            {
+                Console.WriteLine("[ZLib] url update successfully!");
+                Console.WriteLine(_base);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Cannot update zlib's url");
+            Console.WriteLine(ex);
+        }        
+    }
 
     protected override BookInfo[] ParseResponse(string response)
     {
