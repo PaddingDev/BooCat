@@ -1,0 +1,58 @@
+name: Deploy to Azure Virtual Machines (Linux)
+
+on:
+  push:
+    branches: [ "dev" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+  deploy-us:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Azure VM (US)
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.BCUS }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: hostname && sudo bcupd
+  deploy-uk:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Azure VM (UK)
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.BCUK }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: hostname && sudo bcupd
+  deploy-hk:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Azure VM (HK)
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.BCHK }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: hostname && sudo bcupd
