@@ -16,6 +16,10 @@ builder.Services.AddStackExchangeRedisCache(x =>
     if (!int.TryParse(absoluteExpire, out int aExp)) aExp = 45; // min
     string slidingExpire = builder.Configuration["RedisSlidingExpire"];
     if (!int.TryParse(slidingExpire, out int sExp)) sExp = 720; // min
+
+    Console.WriteLine($"Redis Conf: {x.Configuration}");
+    Console.WriteLine($"Absolute Expire: {absoluteExpire} min");
+    Console.WriteLine($"Sliding Expire: {slidingExpire} min");
     BooCatController.InitialiseCachOption(TimeSpan.FromMinutes(aExp), TimeSpan.FromMinutes(sExp));
 });
 
