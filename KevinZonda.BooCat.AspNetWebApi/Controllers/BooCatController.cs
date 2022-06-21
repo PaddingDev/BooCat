@@ -83,7 +83,9 @@ public static class BooCatController
 
     public static async Task<IResult> ProviderRequest(string provider, string name, IDistributedCache? cache = null)
     {
-        var (Infos, Err) = await GetSearchedBook(provider, name, cache);
+        var p = dic.Regular(provider);
+        if (p == null) return Results.BadRequest((ErrModel)"Not Valid Provider");
+        var (Infos, Err) = await GetSearchedBook(p, name, cache);
 
         if (Err != null)
             return Results.BadRequest(Err);
