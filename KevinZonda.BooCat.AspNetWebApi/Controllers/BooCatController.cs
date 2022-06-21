@@ -61,9 +61,10 @@ public static class BooCatController
 
             return true;
         }
-        catch
+        catch (Exception ex)
         {
             Console.WriteLine($"CACHE-SET: FAILED");
+            Console.WriteLine(ex);
             
             return false;
         }
