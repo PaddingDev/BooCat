@@ -28,7 +28,6 @@ public sealed class LibGen : Provider
             list.AddIfNotNull(ParseBookNode(bookNode));
         }
 
-        //File.WriteAllText("c.html", node.OuterHtml);
         return list.ToArray();
     }
 

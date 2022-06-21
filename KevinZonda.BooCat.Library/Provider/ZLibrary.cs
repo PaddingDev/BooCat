@@ -12,8 +12,12 @@ public sealed class ZLibrary : Provider
 
     private string _prefix = "https://1lib.in/s/?q=";
     private string _base = "https://1lib.in";
+    
+    private bool _updLock = false;
     public async Task<bool> UpdateUrlAsync()
     {
+        if (_updLock) return false;
+        _updLock = true;
         var (html, err) = await this.HttpGet("https://z-lib.org/");
         if (err != null) return false;
         var doc = new HtmlDocument();
@@ -28,6 +32,7 @@ public sealed class ZLibrary : Provider
         uri.Port = -1;
         _base = uri.ToString().Trim('/');
         _prefix = _base + "/s/?q=";
+        _updLock = false;
         return true;
     }
 
@@ -55,7 +60,10 @@ public sealed class ZLibrary : Provider
     protected override BookInfo[] ParseResponse(string response)
     {
         if (response.Contains("Z-Library single sign on"))
-            throw new Exception("ZLib url is out of date, please contact admin to update");
+        {
+            var _ = UpdateUrlAsync();
+            throw new Exception("ZLib url is out of date, an update flow has been trigged, please try again");
+        }
 
         var list = new List<BookInfo>();
 

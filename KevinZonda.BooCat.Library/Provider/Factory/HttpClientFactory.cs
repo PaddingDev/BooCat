@@ -7,6 +7,7 @@
         public static HttpClient Produce()
         {
             if (_httpClient == null) _httpClient = new HttpClient();
+            _httpClient.Timeout = TimeSpan.FromSeconds(7);
             return _httpClient;
         }
     }
