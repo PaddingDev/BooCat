@@ -31,6 +31,7 @@ app.MapControllers();
 
 app.Map("/api/{req}", async (string req, string name, HttpContext c, IDistributedCache? redis) =>
 {
+    if (redis == null) System.Console.WriteLine("Redis is null");
     if (!(req.ToLower() is "allbooks" or "all" or "a"))
         return await BooCatController.ProviderRequest(req, name, redis);
 
