@@ -107,7 +107,8 @@ public static class BooCatController
             if (p == null) continue;
             _dic.Add(p, GetSearchedBook(p, name, cache));
         }
-        await Task.Factory.StartNew(() => Task.WaitAll(_dic.Values.ToArray(), 10000));
+        await Task.WhenAny(Task.WhenAll(_dic.Values), Task.Delay(10000));        
+        // await Task.Factory.StartNew(() => Task.WaitAll(_dic.Values.ToArray(), 10000));
 
         var _resultDic = new Dictionary<string, ResultModel>();
         foreach (var kvp in _dic)
