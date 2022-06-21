@@ -13,6 +13,7 @@ builder.Services.AddStackExchangeRedisCache(x =>
 {
     string addr = builder.Configuration["Redis"];
     if (string.IsNullOrEmpty(addr)) addr = "localhost";
+    x.Configuration = addr;
 
     string absoluteExpire = builder.Configuration["RedisAbsoluteExpire"];
     if (!int.TryParse(absoluteExpire, out int aExp)) aExp = 45; // min
