@@ -11,13 +11,16 @@ builder.Services.AddControllers();
 
 builder.Services.AddStackExchangeRedisCache(x =>
 {
-    x.Configuration = builder.Configuration.GetConnectionString("Redis");
+    string addr = builder.Configuration["Redis"];
+    if (string.IsNullOrEmpty(addr)) addr = "localhost";
+
     string absoluteExpire = builder.Configuration["RedisAbsoluteExpire"];
     if (!int.TryParse(absoluteExpire, out int aExp)) aExp = 45; // min
+
     string slidingExpire = builder.Configuration["RedisSlidingExpire"];
     if (!int.TryParse(slidingExpire, out int sExp)) sExp = 720; // min
 
-    Console.WriteLine($"Redis Conf: {x.Configuration}");
+    Console.WriteLine($"Redis Addr: {x.Configuration}");
     Console.WriteLine($"Absolute Expire: {absoluteExpire} min");
     Console.WriteLine($"Sliding Expire: {slidingExpire} min");
     BooCatController.InitialiseCachOption(TimeSpan.FromMinutes(aExp), TimeSpan.FromMinutes(sExp));
