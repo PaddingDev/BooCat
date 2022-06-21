@@ -33,11 +33,14 @@ public static class BooCatController
 
     public static async Task<BookInfo[]?> GetCached(IDistributedCache? cache, string provider, string name)
     {
-        if (cache == null || cache == null) return null;
+        if (cache == null) return null;
+        Console.WriteLine($"CACHE-GET: {provider}-{name}");
         try
         {
             var result = await cache.GetStringAsync(GetCachedKey(provider, name));
             if (string.IsNullOrEmpty(result)) return null;
+            Console.WriteLine($"CACHE-GET: OK");
+            
             return JsonSerializer.Deserialize<BookInfo[]>(result);
         }
         catch
@@ -49,13 +52,19 @@ public static class BooCatController
     public static async Task<bool> SetCache<T>(IDistributedCache? cache, string provider, string name, T value)
     {
         if (cache == null) return false;
+        Console.WriteLine($"CACHE-SET: {provider}-{name}: {value}");
+        
         try
         {
             await cache.SetStringAsync(GetCachedKey(provider, name), JsonSerializer.Serialize(value), CacheOption);
+        Console.WriteLine($"CACHE-SET: OK");
+
             return true;
         }
         catch
         {
+            Console.WriteLine($"CACHE-SET: FAILED");
+            
             return false;
         }
     }
