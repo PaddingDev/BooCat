@@ -24,7 +24,7 @@ builder.Services.AddStackExchangeRedisCache(x =>
     Console.WriteLine($"Redis Addr: {x.Configuration}");
     Console.WriteLine($"Absolute Expire: {absoluteExpire} min");
     Console.WriteLine($"Sliding Expire: {slidingExpire} min");
-    BooCatController.InitialiseCachOption(TimeSpan.FromMinutes(aExp), TimeSpan.FromMinutes(sExp));
+    BooCatController.InitialiseCacheOption(TimeSpan.FromMinutes(aExp), TimeSpan.FromMinutes(sExp));
 });
 
 var app = builder.Build();

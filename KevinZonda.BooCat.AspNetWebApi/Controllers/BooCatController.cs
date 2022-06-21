@@ -18,7 +18,7 @@ public static class BooCatController
     };
     private static DistributedCacheEntryOptions? CacheOption;
 
-    public static void InitialiseCachOption(TimeSpan absoluteExpiration, TimeSpan slidingExpiration)
+    public static void InitialiseCacheOption(TimeSpan absoluteExpiration, TimeSpan slidingExpiration)
     {
         CacheOption = new DistributedCacheEntryOptions()
                               .SetAbsoluteExpiration(absoluteExpiration)
