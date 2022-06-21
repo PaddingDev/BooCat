@@ -7,6 +7,6 @@ rm -fr *
 git clone https://github.com/KevinZonda/BooCat src
 cd src
 dotnet publish KevinZonda.BooCat.AspNetWebApi -c Release -o /usr/local/boocat/bin/
-sudo cp boocat.service /etc/systemd/system/
+sudo cp ./script/boocat.service /etc/systemd/system/
 sudo systemctl enable boocat.service
 sudo systemctl start boocat.service

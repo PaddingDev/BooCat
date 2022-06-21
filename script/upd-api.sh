@@ -32,7 +32,7 @@ echo "Creating service backup..."
 sudo mv /etc/systemd/system/boocat.service /etc/systemd/system/boocat.service.bak
 
 echo "Updating service file..."
-sudo cp boocat.service /etc/systemd/system/
+sudo cp ./script/boocat.service /etc/systemd/system/
 
 echo "Try to start service..."
 sudo systemctl start boocat.service
