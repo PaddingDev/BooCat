@@ -33,6 +33,7 @@ sudo mv /etc/systemd/system/boocat.service /etc/systemd/system/boocat.service.ba
 
 echo "Updating service file..."
 sudo cp ./script/boocat.service /etc/systemd/system/
+sudo systemctl daemon-reload
 
 echo "Try to start service..."
 sudo systemctl start boocat.service
@@ -40,6 +41,8 @@ sudo systemctl start boocat.service
 if [ $? -ne 0 ]; then
     echo "Failed to start with new service, falling back service..."
     sudo mv /etc/systemd/system/boocat.service.bak /etc/systemd/system/boocat.service
+    sudo systemctl daemon-reload
+
     echo "Try to start new bin with old service..."
     sudo systemctl start boocat.service
     if [ $? -ne 0 ]; then
