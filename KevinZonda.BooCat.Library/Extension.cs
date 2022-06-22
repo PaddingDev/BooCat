@@ -126,6 +126,15 @@ public static class Extension
         return sp.SelectNotEmpty();
     }
 
+    public static string[] SplitTrim(this string s, string[] sep)
+    {
+        if (string.IsNullOrEmpty(s)) return Array.Empty<string>();
+        var n = s.Trim();
+        if (string.IsNullOrEmpty(n)) return Array.Empty<string>();
+        var sp = n.Split(sep, StringSplitOptions.TrimEntries);
+        return sp.SelectNotEmpty();
+    }
+
     public static string[] SelectNotEmpty(this string[] s)
     {
         if (s == null || s.Length == 0) return Array.Empty<string>();

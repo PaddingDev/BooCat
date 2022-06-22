@@ -12,7 +12,7 @@ public sealed class ZLibrary : Provider
 
     private string _prefix = "https://1lib.in/s/?q=";
     private string _base = "https://1lib.in";
-    
+
     private bool _updLock = false;
     public async Task<bool> UpdateUrlAsync()
     {
@@ -54,7 +54,7 @@ public sealed class ZLibrary : Provider
         {
             Console.WriteLine("Cannot update zlib's url");
             Console.WriteLine(ex);
-        }        
+        }
     }
 
     protected override BookInfo[] ParseResponse(string response)
@@ -155,7 +155,17 @@ public sealed class ZLibrary : Provider
             }
 
         }
-        return (bookName, publisher.ToArray(), author.ToArray(), link)!;
+
+        var authorList = author.ToArray();
+        if (authorList.Length == 1)
+        {
+            var authTxt = authorList[0];
+            var auths = authTxt.SplitTrim(new[] { "&amp;",  ";", "&" });
+            if (auths.Length > 1)
+                authorList = auths;
+
+        }
+        return (bookName, publisher.ToArray(), authorList, link)!;
     }
 
     (string Date, string Language, string FileType, string FileSize) ParseDetail(HtmlNode node)
