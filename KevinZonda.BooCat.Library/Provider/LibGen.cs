@@ -115,7 +115,7 @@ public sealed class LibGen : Provider
     {
         var bNode = n.SelectSingleNode("b");
         var aNode = n.SelectSingleNode("a");
-        var titleNode = bNode.IfNull(aNode);
+        var titleNode = bNode ?? aNode;
 
         if (titleNode == null) return null;
         var name = titleNode.InnerText.SafeTrim();
