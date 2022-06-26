@@ -1,4 +1,7 @@
-# BooCat
+<div align="center">
+  <img src="https://socialify.git.ci/KevinZonda/BooCat/image?description=1&descriptionEditable=Access%20favourite%20book%20easier.&font=Raleway&forks=1&issues=1&language=1&name=1&owner=1&stargazers=1&theme=Dark" />
+  <h1>BooCat</h1>
+</div>
 
 A universal book search platform which allows you to search several providers by just one-click.
 
