@@ -6,27 +6,24 @@ git fetch --all
 git reset --hard origin/master
 git pull
 
-echo "Stopping current services..."
-sudo systemctl stop boocat.service
-
 echo "Building new version..."
 dotnet publish KevinZonda.BooCat.AspNetWebApi -c Release -o /usr/local/boocat/bin-new/
+
+if [ $? -ne 0 ]; then
+    echo "Failed to publish, falling back..."
+    sudo rm -fr /usr/local/boocat/bin-new
+    echo "Upgrade failed."
+    exit 1
+fi
+
+echo "Stopping current services..."
+sudo systemctl stop boocat.service
 
 echo "Creating bin backup..."
 sudo mv /usr/local/boocat/bin /usr/local/boocat/bin-bak
 
 echo "Moving new version..."
 sudo mv /usr/local/boocat/bin-new /usr/local/boocat/bin
-
-
-if [ $? -ne 0 ]; then
-    echo "Failed to publish, falling back..."
-    sudo rm -fr /usr/local/boocat/bin
-    sudo mv /usr/local/boocat/bin-bak /usr/local/boocat/bin
-    sudo systemctl start boocat.service
-    echo "Upgrade failed."
-    exit 1
-fi
 
 echo "Creating service backup..."
 sudo mv /etc/systemd/system/boocat.service /etc/systemd/system/boocat.service.bak
