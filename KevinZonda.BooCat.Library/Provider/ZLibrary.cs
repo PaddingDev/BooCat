@@ -10,8 +10,8 @@ public sealed class ZLibrary : Provider
     protected override string _baseUrl => _base;
     public override int MinLength => 2;
 
-    private string _prefix = "https://1lib.in/s/?q=";
-    private string _base = "https://1lib.in";
+    private string _prefix = "https://z-lib.is/s/?q=";
+    private string _base = "https://z-lib.is";
 
     private bool _updLock = false;
     public async Task<bool> UpdateUrlAsync()
