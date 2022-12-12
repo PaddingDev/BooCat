@@ -111,7 +111,7 @@ public sealed class ZLibrary : Provider
                 book.Name = basicInfo.BookName;
                 book.Authors = basicInfo.Authors;
                 book.Publishers = basicInfo.Publishers;
-                book.Url = Uri2Url(basicInfo.Uri);
+                book.Url = basicInfo.Uri;
             }
         }
 
